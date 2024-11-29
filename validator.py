@@ -1,4 +1,5 @@
-from parser import white_spaces_remover
+from custom_parser import white_spaces_remover
+
 operator_priority = {
     "+": 1,
     "-": 1,
@@ -26,19 +27,24 @@ operator_operands = {
     "!": 1
 }
 def dot_checker(inpt):
-    i=0
-    while i<len(inpt):
-        if inpt[i]==".":
-            if i + 1 < len(inpt) and inpt[i + 1] != "." and inpt[i - 1].isdigit():
-                i += 1
-            else: return False
+    i = 0
+    while i < len(inpt):
+        if inpt[i] == ".":
+            # A dot must be surrounded by digits to be valid
+            if i == 0 or i == len(inpt) - 1 or not (inpt[i - 1].isdigit() and inpt[i + 1].isdigit()) or ((i+2)<len(inpt)and inpt[i+2]=="."):
+                return False
         elif inpt[i].isdigit():
-            i+=1
+            # Move forward for digits
+            pass
         elif inpt[i] in operator_operands:
-            i+=1
+            # Reset dot validity when encountering an operator
+            pass
         else:
+            # If the character is neither a dot, digit, nor operator, it's invalid
             return False
+        i += 1
     return True
+
 def unexpected_letters(inpt):
     pass
 def fun1(inpt):
