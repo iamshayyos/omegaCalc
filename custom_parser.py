@@ -4,6 +4,7 @@ def string_to_lst_conv(inpt):
 def white_spaces_remover(inpt):
     inpt_lst = [letter for letter in string_to_lst_conv(inpt) if not letter.isspace()]
     return list(''.join(inpt_lst))
+
 def infix_to_postfix(expression):
     precedence = {
         '+': 1,  # Addition
@@ -21,16 +22,16 @@ def infix_to_postfix(expression):
     supported_operators = {'+', '-', '*', '/', '^', '%', '&', '$', '@', '!', '~'}
     output = []  # Postfix expression
     stack = []  # Operator stack
-    for token in expression:
-        if token.isdigit():  # If the token is a number, add it to the output
-            output.append(token)
-        elif token in supported_operators:  # If the token is an operator
-            while stack and precedence.get(stack[-1], 0) >= precedence[token]:
+    for char in expression:
+        if char.isdigit():  # If the token is a number, add it to the output
+            output.append(char)
+        elif char in supported_operators:  # If the token is an operator
+            while stack and precedence.get(stack[-1], 0) >= precedence[char]:
                 output.append(stack.pop())
-            stack.append(token)
-        elif token == '(':  # If the token is '(', push it onto the stack
-            stack.append(token)
-        elif token == ')':  # If the token is ')', pop until '(' is found
+            stack.append(char)
+        elif char == '(':  # If the token is '(', push it onto the stack
+            stack.append(char)
+        elif char == ')':  # If the token is ')', pop until '(' is found
             while stack and stack[-1] != '(':
                 output.append(stack.pop())
             stack.pop()  # Remove '(' from the stack
@@ -48,7 +49,7 @@ def main():
     print("Converted to list:", string_to_lst_conv(st))
     print("Without whitespaces:", white_spaces_remover(st))"""
     expression = ["3", "+", "5", "*", "(", "2", "-", "4", ")"]
-    postfix = infix_to_postfix(expression)
+    postfix = infix_to_postfix(input("Enter something"))
     print("Postfix:", postfix)
 
 if __name__ == "__main__":

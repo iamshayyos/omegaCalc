@@ -23,13 +23,3 @@ def avg(first, second):
     return (first + second) / 2
 
 
-operations = {
-    '+': addition,
-    '-': subtraction,
-    '*': multiplication,
-    '/': division,
-    '^': power,
-    '@': max_value,
-    '$': min_value,
-    '&': avg
-}
