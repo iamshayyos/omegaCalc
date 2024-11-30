@@ -63,10 +63,34 @@ def brackets_checker(inpt):
             brackets_stack.pop()
     return len(brackets_stack)==0
 
-def tilda_checker(inpt):
-     ...
+def tilda_checker(inpt):#
+    indx=0
+    if inpt[len(inpt)-1]=='~':
+        return False
+    while indx<len(inpt):
+        if inpt[indx]!='~':
+            indx+=1
+        else:
+            if not (indx+1<len(inpt) and (inpt[indx+1].isdigit()  or inpt[indx+1]=='-')):
+                return False
+            indx+=1
+    return True
+
+def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
+    indx=0
+    if inpt[indx]=='!':
+        return False
+    indx+=1
+    while indx<len(inpt):
+        if inpt[indx]=='!' and not inpt[indx-1].isdigit():
+            return False
+        indx+=1
+    return True
+
+
+
 def main():
-    print(dot_checker(input("enter smth")))
+    print(tilda_checker(input("enter smth")))
 
 if __name__ == "__main__":
     main()
