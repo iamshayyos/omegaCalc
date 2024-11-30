@@ -27,6 +27,8 @@ operator_operands = {
     "!": 1
 }
 
+def all_white_chars(inpt):
+    return False if inpt.isspace() else True
 
 def dot_checker(inpt):
     i = 0
@@ -89,8 +91,9 @@ def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
 
 
 
+
 def main():
-    print(tilda_checker(input("enter smth")))
+    print(all_white_chars(input("enter smth")))
 
 if __name__ == "__main__":
     main()

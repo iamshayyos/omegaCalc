@@ -42,7 +42,6 @@ def infix_to_postfix(expression):
 
     return output
 
-
 def main():
     """"
     st = input("Enter something: ")
