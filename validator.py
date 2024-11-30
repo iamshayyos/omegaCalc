@@ -26,6 +26,8 @@ operator_operands = {
     "~": 1,
     "!": 1
 }
+
+
 def dot_checker(inpt):
     i = 0
     while i < len(inpt):
@@ -37,7 +39,6 @@ def dot_checker(inpt):
             # Move forward for digits
             pass
         elif inpt[i] in operator_operands:
-            # Reset dot validity when encountering an operator
             pass
         else:
             # If the character is neither a dot, digit, nor operator, it's invalid
@@ -46,13 +47,50 @@ def dot_checker(inpt):
     return True
 
 def unexpected_letters(inpt):
-    pass
-def fun1(inpt):
-    inpt=white_spaces_remover(inpt)
-    print(dot_checker(inpt))
+    for char in inpt:
+        if not char.isdigit() and char not in operator_priority and char!='(' and char!=')' and char != '.':
+            return False
+    return True
+
+def brackets_checker(inpt):
+    brackets_stack=[]
+    for char in inpt:
+        if char== '(':
+            brackets_stack.append('(')
+        if char==')':
+            if len(brackets_stack)==0:
+                return False
+            brackets_stack.pop()
+    return len(brackets_stack)==0
+
+def tilda_checker(inpt):#
+    indx=0
+    if inpt[len(inpt)-1]=='~':
+        return False
+    while indx<len(inpt):
+        if inpt[indx]!='~':
+            indx+=1
+        else:
+            if not (indx+1<len(inpt) and (inpt[indx+1].isdigit()  or inpt[indx+1]=='-')):
+                return False
+            indx+=1
+    return True
+
+def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
+    indx=0
+    if inpt[indx]=='!':
+        return False
+    indx+=1
+    while indx<len(inpt):
+        if inpt[indx]=='!' and not inpt[indx-1].isdigit():
+            return False
+        indx+=1
+    return True
+
+
 
 def main():
-    fun1(input("enter smth"))
+    print(tilda_checker(input("enter smth")))
 
 if __name__ == "__main__":
     main()
