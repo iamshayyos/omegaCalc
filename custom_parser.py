@@ -5,6 +5,7 @@ def white_spaces_remover(inpt):
     inpt_lst = [letter for letter in string_to_lst_conv(inpt) if not letter.isspace()]
     return list(''.join(inpt_lst))
 
+
 def infix_to_postfix(expression):
     precedence = {
         '+': 1,  # Addition
@@ -17,14 +18,23 @@ def infix_to_postfix(expression):
         '@': 5,  # AVG
         '%': 4,  # Modulo
         '!': 6,  # Factorial
-        '~': 6   # Negation
+        '~': 6  # Negation
     }
     supported_operators = {'+', '-', '*', '/', '^', '%', '&', '$', '@', '!', '~'}
     output = []  # Postfix expression
     stack = []  # Operator stack
-    for char in expression:
-        if char.isdigit():  # If the token is a number, add it to the output
-            output.append(char)
+
+    i = 0
+    while i < len(expression):
+        char = expression[i]
+
+        # Check for numbers (multi-digit)
+        if char.isdigit():
+            number = char
+            while i + 1 < len(expression) and expression[i + 1].isdigit():
+                i += 1
+                number += expression[i]
+            output.append(number)  # Append the full number to the output
         elif char in supported_operators:  # If the token is an operator
             while stack and precedence.get(stack[-1], 0) >= precedence[char]:
                 output.append(stack.pop())
@@ -35,12 +45,15 @@ def infix_to_postfix(expression):
             while stack and stack[-1] != '(':
                 output.append(stack.pop())
             stack.pop()  # Remove '(' from the stack
+        i += 1
 
-        # Pop any remaining operators from the stack to the output
+    # Pop any remaining operators from the stack to the output
     while stack:
         output.append(stack.pop())
 
     return output
+
+
 
 def main():
     """"

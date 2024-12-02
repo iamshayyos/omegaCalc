@@ -89,7 +89,8 @@ def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
         indx+=1
     return True
 
-
+def dev_by_zero(inpt):
+    ...
 
 
 def main():
