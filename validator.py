@@ -89,6 +89,26 @@ def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
         indx+=1
     return True
 
+def minus_val(inpt):
+    processed_expression = []
+    n = len(inpt)
+    i = 0
+
+    while i < n:
+        char = inpt[i]
+
+        # Handle unary minus
+        if char == '-' and (
+                i == 0 or inpt[i - 1] in operator_operands
+        ):
+            processed_expression.append("~")  # Replace unary minus with distinct marker
+        else:
+            processed_expression.append(char)
+
+        i += 1
+
+    return ''.join(processed_expression)
+
 def dev_by_zero(inpt):
     ...
 

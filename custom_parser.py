@@ -5,7 +5,6 @@ def white_spaces_remover(inpt):
     inpt_lst = [letter for letter in string_to_lst_conv(inpt) if not letter.isspace()]
     return list(''.join(inpt_lst))
 
-
 def infix_to_postfix(expression):
     precedence = {
         '+': 1,  # Addition
