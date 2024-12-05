@@ -67,18 +67,7 @@ def brackets_checker(inpt):
             brackets_stack.pop()
     return len(brackets_stack)==0
 
-def tilda_checker(inpt):#
-    indx=0
-    if inpt[len(inpt)-1]=='~':
-        return False
-    while indx<len(inpt):
-        if inpt[indx]!='~':
-            indx+=1
-        else:
-            if not (indx+1<len(inpt) and (inpt[indx+1].isdigit()  or inpt[indx+1]=='-')):
-                return False
-            indx+=1
-    return True
+
 
 def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
     indx=0
@@ -86,7 +75,9 @@ def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
         return False
     indx+=1
     while indx<len(inpt):
-        if inpt[indx]=='!' and not inpt[indx-1].isdigit():
+        if inpt[indx]=='!' and (not inpt[indx-1].isdigit() or not inpt[indx-1]!=")"):
+            return False
+        if indx>=2 and inpt[indx-2]=='-':
             return False
         indx+=1
     return True
@@ -96,62 +87,49 @@ def is_binary_minus(expression, index):
 
     # Validate index is within range
     if index < 0 or index >= len(expression):
-        return None  # Invalid index
+        return False
 
     # Ensure the character at the index is a minus sign
     if expression[index] != "-":
-        return None  # Not a minus sign
+        return False
 
     # Check if it's the first character
     if index == 0:
         return False  # A minus at the start is unary
 
-    # Check the character before and after the minus
+    # Check the character before the minus
     prev_char = expression[index - 1]
-    next_char = expression[index + 1] if index + 1 < len(expression) else ""
 
     # If the character before is valid for unary, it's unary
-    if prev_char in valid_for_unary:
-        return False  # Unary
+    return not (prev_char in valid_for_unary)
 
-    # If the character before is a digit or closing parenthesis, it's binary
-    if prev_char.isdigit() or prev_char == ")":
-        return True  # Binary
+def tilda_checker(inpt):#
 
-    # If the next character is valid for unary (number or opening parenthesis), it's unary
-    if next_char.isdigit() or next_char == "(":
-        return False  # Unary
+    # Tilde cannot be the last character
+    if inpt[len(inpt)-1]=='~':
+        return False
 
-    # Default case: assume unary
-    return False
-
-def minus_val(inpt):
-    processed_expression = []
-    n = len(inpt)
-    i = 0
-
-    while i < n:
-        char = inpt[i]
-
-        # Handle unary minus
-        if char == '-' and (
-                i == 0 or inpt[i - 1] in operator_operands
-        ):
-            processed_expression.append("~")  # Replace unary minus with distinct marker
-        else:
-            processed_expression.append(char)
-
-        i += 1
-
-    return ''.join(processed_expression)
+    for indx in range(len(inpt)):
+        if inpt[indx] == '~':
+            if indx<len(inpt):
+                next_char = inpt[indx + 1]
+                # Tilde must be followed directly by a digit or a valid unary minus (-)
+                if not (next_char.isdigit() or (next_char == '-' and not is_binary_minus(inpt, indx + 1))):
+                    return False
+    return True
 
 def dev_by_zero(inpt):
     ...
 
 
 def main():
-    ex="5+-3-4*(-2)"
-    print(is_binary_minus(ex,4))
+    ex="-5+-3-4*(-2)-2"
+    #print(is_binary_minus(ex,4))
+    inpt=input("enter smth: ")
+    while inpt!='.':
+        print(tilda_checker(inpt))
+        inpt = input("enter smth: ")
+
 
 if __name__ == "__main__":
     main()
