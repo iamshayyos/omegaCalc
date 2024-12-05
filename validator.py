@@ -114,7 +114,7 @@ def tilda_checker(inpt):#
             if indx<len(inpt):
                 next_char = inpt[indx + 1]
                 # Tilde must be followed directly by a digit or a valid unary minus (-)
-                if not (next_char.isdigit() or (next_char == '-' and not is_binary_minus(inpt, indx + 1))):
+                if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
                     return False
     return True
 
@@ -123,7 +123,8 @@ def dev_by_zero(inpt):
 
 
 def main():
-    ex="-5+-3-4*(-2)-2"
+    #ex="-5+-3-4*(-2)-2"
+    ex = "~--~--3"
     #print(is_binary_minus(ex,4))
     inpt=input("enter smth: ")
     while inpt!='.':
