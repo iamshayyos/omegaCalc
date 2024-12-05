@@ -1,3 +1,5 @@
+from operator import indexOf
+
 from custom_parser import white_spaces_remover
 
 operator_priority = {
@@ -89,6 +91,40 @@ def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
         indx+=1
     return True
 
+def is_binary_minus(expression, index):
+    valid_for_unary = {"(", "+", "-", "/", "*"}  # Characters that allow a unary minus
+
+    # Validate index is within range
+    if index < 0 or index >= len(expression):
+        return None  # Invalid index
+
+    # Ensure the character at the index is a minus sign
+    if expression[index] != "-":
+        return None  # Not a minus sign
+
+    # Check if it's the first character
+    if index == 0:
+        return False  # A minus at the start is unary
+
+    # Check the character before and after the minus
+    prev_char = expression[index - 1]
+    next_char = expression[index + 1] if index + 1 < len(expression) else ""
+
+    # If the character before is valid for unary, it's unary
+    if prev_char in valid_for_unary:
+        return False  # Unary
+
+    # If the character before is a digit or closing parenthesis, it's binary
+    if prev_char.isdigit() or prev_char == ")":
+        return True  # Binary
+
+    # If the next character is valid for unary (number or opening parenthesis), it's unary
+    if next_char.isdigit() or next_char == "(":
+        return False  # Unary
+
+    # Default case: assume unary
+    return False
+
 def minus_val(inpt):
     processed_expression = []
     n = len(inpt)
@@ -114,7 +150,8 @@ def dev_by_zero(inpt):
 
 
 def main():
-    print(all_white_chars(input("enter smth")))
+    ex="5+-3-4*(-2)"
+    print(is_binary_minus(ex,4))
 
 if __name__ == "__main__":
     main()
