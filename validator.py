@@ -124,11 +124,11 @@ def dev_by_zero(inpt):
 
 def main():
     #ex="-5+-3-4*(-2)-2"
-    ex = "~--~--3"
+    ex = "~-3"
     #print(is_binary_minus(ex,4))
     inpt=input("enter smth: ")
     while inpt!='.':
-        print(tilda_checker(inpt))
+        print(factorial_checker(inpt))
         inpt = input("enter smth: ")
 
 
