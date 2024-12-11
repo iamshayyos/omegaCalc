@@ -119,8 +119,9 @@ def tilda_checker(inpt):#
     return True
 def pow_vali(base,exponent):
     return False if(base==0 and exponent==0) else True
-def dev_by_zero(inpt):
-    ...
+
+def dev_by_zero(denominator ):
+    return not denominator==0
 
 
 def main():
