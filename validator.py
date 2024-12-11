@@ -117,7 +117,13 @@ def tilda_checker(inpt):#
                 if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
                     return False
     return True
-
+def pow_vali(inpt):
+    i = 0
+    while i < len(inpt) - 2:
+        if inpt[i] == '0' and inpt[i + 1] == '^' and inpt[i + 2] == '0':
+            return False
+        i += 1
+    return True
 def dev_by_zero(inpt):
     ...
 
@@ -128,7 +134,7 @@ def main():
     #print(is_binary_minus(ex,4))
     inpt=input("enter smth: ")
     while inpt!='.':
-        print(factorial_checker(inpt))
+        print(pow_vali(inpt))
         inpt = input("enter smth: ")
 
 
