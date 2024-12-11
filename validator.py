@@ -117,13 +117,8 @@ def tilda_checker(inpt):#
                 if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
                     return False
     return True
-def pow_vali(inpt):
-    i = 0
-    while i < len(inpt) - 2:
-        if inpt[i] == '0' and inpt[i + 1] == '^' and inpt[i + 2] == '0':
-            return False
-        i += 1
-    return True
+def pow_vali(base,exponent):
+    return False if(base==0 and exponent==0) else True
 def dev_by_zero(inpt):
     ...
 
