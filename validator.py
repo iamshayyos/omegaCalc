@@ -1,6 +1,4 @@
-from operator import indexOf
-
-from custom_parser import white_spaces_remover
+from customExceptions import *
 
 operator_priority = {
     "+": 1,
@@ -30,7 +28,9 @@ operator_operands = {
 }
 
 def all_white_chars(inpt):
-    return False if inpt.isspace() else True
+    if inpt.isspace():
+        raise AllWhiteSpaceException
+    return True
 
 def dot_checker(inpt):
     i = 0
@@ -38,7 +38,7 @@ def dot_checker(inpt):
         if inpt[i] == ".":
             # A dot must be surrounded by digits to be valid
             if i == 0 or i == len(inpt) - 1 or not (inpt[i - 1].isdigit() and inpt[i + 1].isdigit()) or ((i+2)<len(inpt)and inpt[i+2]=="."):
-                return False
+                raise InvalidDotPlacementException
         elif inpt[i].isdigit():
             # Move forward for digits
             pass
@@ -46,14 +46,14 @@ def dot_checker(inpt):
             pass
         else:
             # If the character is neither a dot, digit, nor operator, it's invalid
-            return False
+            raise InvalidDotPlacementException
         i += 1
     return True
 
 def unexpected_letters(inpt):
     for char in inpt:
         if not char.isdigit() and char not in operator_priority and char!='(' and char!=')' and char != '.':
-            return False
+            raise UnexpectedCharacterException
     return True
 
 def brackets_checker(inpt):
@@ -63,22 +63,25 @@ def brackets_checker(inpt):
             brackets_stack.append('(')
         if char==')':
             if len(brackets_stack)==0:
-                return False
+                raise MismatchedBracketsException
             brackets_stack.pop()
-    return len(brackets_stack)==0
+
+    if len(brackets_stack)!=0:
+        raise MismatchedBracketsException
+    return True
 
 
 
 def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
     indx=0
     if inpt[indx]=='!':
-        return False
+        raise InvalidFactorialException
     indx+=1
     while indx<len(inpt):
         if inpt[indx]=='!' and (not inpt[indx-1].isdigit() or not inpt[indx-1]!=")"):
-            return False
+            raise InvalidFactorialException
         if indx>=2 and inpt[indx-2]=='-':
-            return False
+            raise InvalidFactorialException
         indx+=1
     return True
 
@@ -103,11 +106,12 @@ def is_binary_minus(expression, index):
     # If the character before is valid for unary, it's unary
     return not (prev_char in valid_for_unary)
 
+
 def tilda_checker(inpt):#
 
     # Tilde cannot be the last character
     if inpt[len(inpt)-1]=='~':
-        return False
+        raise InvalidTildeException
 
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
@@ -115,13 +119,20 @@ def tilda_checker(inpt):#
                 next_char = inpt[indx + 1]
                 # Tilde must be followed directly by a digit or a valid unary minus (-)
                 if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
-                    return False
+                    raise InvalidTildeException
     return True
+
+
 def pow_vali(base,exponent):
-    return False if(base==0 and exponent==0) else True
+    if base==0 and exponent==0:
+        raise ZeroToThePowerZeroException
+    return True
+
 
 def dev_by_zero(denominator ):
-    return not denominator==0
+    if not denominator==0:
+        raise ZeroDivisionError("Division by zero is not allowed.")
+    return True
 
 
 def main():
