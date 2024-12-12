@@ -52,3 +52,12 @@ class ZeroToThePowerZeroException(Exception):
 
     def __str__(self):
         return f"ZeroToThePowerZeroException: {self.args[0]}"
+
+
+class RepeatingSigneException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def __str__(self):
+        return f"RepeatingSigneException: {self.args[0]}"
+

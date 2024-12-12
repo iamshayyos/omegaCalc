@@ -1,33 +1,7 @@
 from validator import *
 from custom_parser import*
 from operations import *
-operator_priority = {
-    "+": addition,
-    "-": subtraction,
-    "*": multiplication,
-    "/": division,
-    "^": power,
-    "%": modulo,
-    "@": avg,
-    "$":max_value,
-    "&": min_value,
-    "~": negative,
-    "!": factorial
-}
-operator_operands = {
-    "+": 2,
-    "-": 2,
-    "*": 2,
-    "/": 2,
-    "^": 2,
-    "%": 2,
-    "@": 2,
-    "$": 2,
-    "&": 2,
-    "~": 1,
-    "!": 1
-}
-
+from globals import *
 
 def calculate(inpt):
     while True:
@@ -39,17 +13,20 @@ def calculate(inpt):
             # Perform all necessary checks
             unexpected_letters(inpt)
             dot_checker(inpt)
+            tilda_checker(inpt)
+            repeating_signs(inpt)
             brackets_checker(inpt)
             factorial_checker(inpt)
-            tilda_checker(inpt)
+
 
             break  # If all checks pass, break the loop
-        except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
+        except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,RepeatingSigneException,
                 MismatchedBracketsException, InvalidFactorialException, InvalidTildeException) as e:
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
 
     print("Input is valid:", inpt)
+    print("Starting calculation")
 
 
 def main():

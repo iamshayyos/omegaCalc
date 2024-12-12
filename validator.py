@@ -1,33 +1,7 @@
 from contextlib import nullcontext
-
 from customExceptions import *
+from globals import *
 
-operator_priority = {
-    "+": 1,
-    "-": 1,
-    "*": 2,
-    "/": 2,
-    "^": 3,
-    "%": 4,
-    "@": 5,
-    "$": 5,
-    "&": 5,
-    "~": 6,
-    "!": 6
-}
-operator_operands = {
-    "+": 2,
-    "-": 2,
-    "*": 2,
-    "/": 2,
-    "^": 2,
-    "%": 2,
-    "@": 2,
-    "$": 2,
-    "&": 2,
-    "~": 1,
-    "!": 1
-}
 
 def all_white_chars(inpt):
     if not inpt.strip():
@@ -83,10 +57,10 @@ def factorial_checker(inpt):
         if inpt[indx] == '!':
             if indx == 0:
                 raise InvalidFactorialException("Expression cannot start with a factorial operator '!'.")
-            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')':
+            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')' and inpt[indx - 1] !='!':
                 raise InvalidFactorialException("Factorial operator '!' must follow a digit or a closing parenthesis ')'.")
-            if indx >= 2 and inpt[indx - 2] == '-':
-                raise InvalidFactorialException("Factorial operator '!' cannot follow a negative sign '-'.")
+            '''if indx >= 2 and inpt[indx - 2] == '-':
+                raise InvalidFactorialException("Factorial operator '!' cannot follow a negative sign '-'.")'''
         indx += 1
     return True
 
@@ -114,20 +88,33 @@ def is_binary_minus(expression, index):
     return not (prev_char in valid_for_unary)
 
 def tilda_checker(inpt):#
-
     # Tilde cannot be the last character
-    if inpt[len(inpt)-1]=='~':
-        raise InvalidTildeException
+    if inpt[len(inpt) - 1] == '~':
+        raise InvalidTildeException("Tilde '~' cannot be the last character in the expression.")
 
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
-            if indx<len(inpt):
+            if indx < len(inpt) - 1:
                 next_char = inpt[indx + 1]
+                if next_char=='~' and is_binary_minus(inpt,indx):
+                    raise InvalidTildeException("")
+
                 # Tilde must be followed directly by a digit or a valid unary minus (-)
-                if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
-                    raise InvalidTildeException
+                if not (next_char.isdigit() or (
+                        next_char == '-' and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
+                    raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit or a unary minus '-'.")
     return True
 
+def repeating_signs(inpt):
+    length = len(inpt)
+    for i in range(length - 1):
+        if inpt[i] in operators_no_repeat and inpt[i]==inpt[i + 1]:
+            raise RepeatingSigneException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
+
+    return True
+
+
+'''הפונקציות שמתחת יקראו בזמן החישוב עצמו ולא במהלך הבדיקה המקדימה'''
 
 def pow_vali(base,exponent):
     if base==0 and exponent==0:
@@ -139,7 +126,6 @@ def dev_by_zero(denominator ):
     if not denominator==0:
         raise ZeroDivisionError("Division by zero is not allowed.")
     return True
-
 
 '''def main():
     #ex="-5+-3-4*(-2)-2"
