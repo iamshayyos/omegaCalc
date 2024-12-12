@@ -13,6 +13,9 @@ def division(first, second):
 def power(first, second):
     return first ** second
 
+def modulo(first,second):
+    return first%second
+
 def max_value(first, second):
     return first if first > second else second
 

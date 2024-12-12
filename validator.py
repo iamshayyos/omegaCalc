@@ -1,3 +1,5 @@
+from contextlib import nullcontext
+
 from customExceptions import *
 
 operator_priority = {
@@ -28,8 +30,8 @@ operator_operands = {
 }
 
 def all_white_chars(inpt):
-    if inpt.isspace():
-        raise AllWhiteSpaceException
+    if not inpt.strip():
+        raise AllWhiteSpaceException("Input contains only whitespace.")
     return True
 
 def dot_checker(inpt):
@@ -37,53 +39,58 @@ def dot_checker(inpt):
     while i < len(inpt):
         if inpt[i] == ".":
             # A dot must be surrounded by digits to be valid
-            if i == 0 or i == len(inpt) - 1 or not (inpt[i - 1].isdigit() and inpt[i + 1].isdigit()) or ((i+2)<len(inpt)and inpt[i+2]=="."):
-                raise InvalidDotPlacementException
-        elif inpt[i].isdigit():
-            # Move forward for digits
+            if i == 0 or i == len(inpt) - 1 or not (inpt[i - 1].isdigit() and inpt[i + 1].isdigit()) or ((i + 2) < len(inpt) and inpt[i + 2] == "."):
+                raise InvalidDotPlacementException("Invalid dot placement detected.")
+        elif inpt[i].isdigit() or inpt[i] in "()":
+            # Digits and parentheses are valid
             pass
         elif inpt[i] in operator_operands:
+            # Valid operators are allowed
             pass
         else:
-            # If the character is neither a dot, digit, nor operator, it's invalid
-            raise InvalidDotPlacementException
+            # If the character is neither a dot, digit, operator, nor parenthesis, it's invalid
+            raise InvalidDotPlacementException(f"Unexpected character '{inpt[i]}' found in input.")
         i += 1
     return True
 
+
+
 def unexpected_letters(inpt):
     for char in inpt:
-        if not char.isdigit() and char not in operator_priority and char!='(' and char!=')' and char != '.':
-            raise UnexpectedCharacterException
+        if not char.isdigit() and char not in operator_priority and char != '(' and char != ')' and char != '.':
+            raise UnexpectedCharacterException(f"Unexpected character found: '{char}'")
     return True
+
 
 def brackets_checker(inpt):
-    brackets_stack=[]
+    brackets_stack = []
     for char in inpt:
-        if char== '(':
+        if char == '(':
             brackets_stack.append('(')
-        if char==')':
-            if len(brackets_stack)==0:
-                raise MismatchedBracketsException
+        if char == ')':
+            if len(brackets_stack) == 0:
+                raise MismatchedBracketsException("Mismatched closing bracket ')'.")
             brackets_stack.pop()
 
-    if len(brackets_stack)!=0:
-        raise MismatchedBracketsException
+    if len(brackets_stack) != 0:
+        raise MismatchedBracketsException("Mismatched opening bracket '('.")
     return True
 
 
-
-def factorial_checker(inpt):#לבדוק אם !!5 יעבוד ו!(!5)
-    indx=0
-    if inpt[indx]=='!':
-        raise InvalidFactorialException
-    indx+=1
-    while indx<len(inpt):
-        if inpt[indx]=='!' and (not inpt[indx-1].isdigit() or not inpt[indx-1]!=")"):
-            raise InvalidFactorialException
-        if indx>=2 and inpt[indx-2]=='-':
-            raise InvalidFactorialException
-        indx+=1
+def factorial_checker(inpt):
+    indx = 0
+    while indx < len(inpt):
+        if inpt[indx] == '!':
+            if indx == 0:
+                raise InvalidFactorialException("Expression cannot start with a factorial operator '!'.")
+            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')':
+                raise InvalidFactorialException("Factorial operator '!' must follow a digit or a closing parenthesis ')'.")
+            if indx >= 2 and inpt[indx - 2] == '-':
+                raise InvalidFactorialException("Factorial operator '!' cannot follow a negative sign '-'.")
+        indx += 1
     return True
+
+
 
 def is_binary_minus(expression, index):
     valid_for_unary = {"(", "+", "-", "/", "*"}  # Characters that allow a unary minus
@@ -105,7 +112,6 @@ def is_binary_minus(expression, index):
 
     # If the character before is valid for unary, it's unary
     return not (prev_char in valid_for_unary)
-
 
 def tilda_checker(inpt):#
 
@@ -135,7 +141,7 @@ def dev_by_zero(denominator ):
     return True
 
 
-def main():
+'''def main():
     #ex="-5+-3-4*(-2)-2"
     ex = "~-3"
     #print(is_binary_minus(ex,4))
@@ -148,4 +154,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-#2+4    (5/3+1)^2
+#2+4    (5/3+1)^2'''
