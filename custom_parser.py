@@ -51,18 +51,50 @@ def infix_to_postfix(expression):
         output.append(stack.pop())
     return output
 
+def calc(postfix_expression):
+    stack = []
+
+    for token in postfix_expression:
+        if token.isdigit() or '.' in token:
+            # Convert to float if there's a decimal point, otherwise to int
+            stack.append(float(token) if '.' in token else int(token))
+        elif token == '_':
+            # Unary minus operator
+            num = stack.pop()
+            stack.append(-num)
+        elif token in operator_functions:
+            if operator_operands[token] == 1:
+                # Unary operator
+                num = stack.pop()
+                stack.append(operator_functions[token](num))
+            elif operator_operands[token] == 2:
+                # Binary operator
+                second = stack.pop()
+                first = stack.pop()
+                stack.append(operator_functions[token](first, second))
+        else:
+            raise ValueError(f"Unsupported operator: {token}")
+
+    if len(stack) != 1:
+        raise ValueError("Invalid postfix expression.")
+
+    return stack[0]
 
 
 
-
-def main():
+'''def main():
     """"
     st = input("Enter something: ")
     print("Converted to list:", string_to_lst_conv(st))
     print("Without whitespaces:", white_spaces_remover(st))"""
     expression = ["3", "+", "5", "*", "(", "2", "-", "4", ")"]
-    postfix = infix_to_postfix(input("Enter something"))
-    print("Postfix:", postfix)
+    x=input("Enter something")
+
+    while x!='.':
+        postfix = infix_to_postfix(x)
+        print("Postfix:", postfix)
+        print("res: ",calc(postfix))
+        x = input("Enter something")
 
 if __name__ == "__main__":
-    main()
+    main()'''

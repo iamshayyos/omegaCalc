@@ -82,26 +82,26 @@ def is_binary_minus(expression, index):
     # If the character before is valid for unary, it's unary
     return not (prev_char in valid_for_unary)
 
-def tilda_checker(inpt):#
-
+def tilda_checker(inpt):
     # Tilde cannot be the last character
-    if inpt[len(inpt)-1]=='~':
-        raise InvalidTildeException
+    if inpt[len(inpt) - 1] == '~':
+        raise InvalidTildeException("Tilde '~' cannot be the last character in the expression.")
 
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
-            if indx<len(inpt):
+            if indx < len(inpt) - 1:
                 next_char = inpt[indx + 1]
                 # Tilde must be followed directly by a digit or a valid unary minus (-)
-                if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
-                    raise InvalidTildeException
+                if not (next_char.isdigit() or (next_char == '-' and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
+                    raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit or a unary minus '-'.")
     return True
+
 
 def repeating_signs(inpt):
     length = len(inpt)
     for i in range(length - 1):
         if inpt[i] in operator_priority and inpt[i]==inpt[i + 1] :
-            raise UnexpectedCharacterException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
+            raise RepeatingSigneException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
 
     return True
 

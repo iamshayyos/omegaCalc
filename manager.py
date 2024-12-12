@@ -28,6 +28,7 @@ def calculate(inpt):
     print("Input is valid:", inpt)
     print("Starting calculation")
     print(infix_to_postfix(inpt))
+    print("res: ", calc(infix_to_postfix(inpt)))
 
 
 def main():
