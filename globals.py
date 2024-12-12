@@ -2,7 +2,7 @@ from operations import *
 
 operators_no_repeat = {'+', '*', '/', '^', '%', '@', '$', '&', '~'}
 supported_operators = {'+', '-', '*', '/', '^', '%', '&', '$', '@', '!', '~'}
-
+valid_for_unary = {"(", "+", "-", "/", "*","~"}
 # Operator priorities for parsing expressions
 operator_priority = {
     "+": 1,

@@ -10,20 +10,23 @@ def all_white_chars(inpt):
 
 def dot_checker(inpt):
     i = 0
+    current_number = ""
+    has_dot = False
+
     while i < len(inpt):
-        if inpt[i] == ".":
-            # A dot must be surrounded by digits to be valid
-            if i == 0 or i == len(inpt) - 1 or not (inpt[i - 1].isdigit() and inpt[i + 1].isdigit()) or ((i + 2) < len(inpt) and inpt[i + 2] == "."):
-                raise InvalidDotPlacementException("Invalid dot placement detected.")
-        elif inpt[i].isdigit() or inpt[i] in "()":
-            # Digits and parentheses are valid
-            pass
-        elif inpt[i] in operator_operands:
-            # Valid operators are allowed
-            pass
+        char = inpt[i]
+
+        if char.isdigit() or char == ".":
+            current_number += char
+            if char == ".":
+                if has_dot:
+                    raise InvalidDotPlacementException("Invalid dot placement: multiple dots in a single number.")
+                has_dot = True
         else:
-            # If the character is neither a dot, digit, operator, nor parenthesis, it's invalid
-            raise InvalidDotPlacementException(f"Unexpected character '{inpt[i]}' found in input.")
+            # When we encounter a non-digit, non-dot character, reset the number and dot flag
+            current_number = ""
+            has_dot = False
+
         i += 1
     return True
 
@@ -57,7 +60,7 @@ def factorial_checker(inpt):
         if inpt[indx] == '!':
             if indx == 0:
                 raise InvalidFactorialException("Expression cannot start with a factorial operator '!'.")
-            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')' and inpt[indx - 1] !='!':
+            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')':
                 raise InvalidFactorialException("Factorial operator '!' must follow a digit or a closing parenthesis ')'.")
             '''if indx >= 2 and inpt[indx - 2] == '-':
                 raise InvalidFactorialException("Factorial operator '!' cannot follow a negative sign '-'.")'''
@@ -67,15 +70,7 @@ def factorial_checker(inpt):
 
 
 def is_binary_minus(expression, index):
-    valid_for_unary = {"(", "+", "-", "/", "*"}  # Characters that allow a unary minus
-
-    # Validate index is within range
-    if index < 0 or index >= len(expression):
-        return False
-
-    # Ensure the character at the index is a minus sign
-    if expression[index] != "-":
-        return False
+     # Characters that allow a unary minus
 
     # Check if it's the first character
     if index == 0:
@@ -88,28 +83,25 @@ def is_binary_minus(expression, index):
     return not (prev_char in valid_for_unary)
 
 def tilda_checker(inpt):#
+
     # Tilde cannot be the last character
-    if inpt[len(inpt) - 1] == '~':
-        raise InvalidTildeException("Tilde '~' cannot be the last character in the expression.")
+    if inpt[len(inpt)-1]=='~':
+        raise InvalidTildeException
 
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
-            if indx < len(inpt) - 1:
+            if indx<len(inpt):
                 next_char = inpt[indx + 1]
-                if next_char=='~' and is_binary_minus(inpt,indx):
-                    raise InvalidTildeException("")
-
                 # Tilde must be followed directly by a digit or a valid unary minus (-)
-                if not (next_char.isdigit() or (
-                        next_char == '-' and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
-                    raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit or a unary minus '-'.")
+                if not (next_char.isdigit() or (next_char == '-' and  inpt[indx+2].isdigit())):
+                    raise InvalidTildeException
     return True
 
 def repeating_signs(inpt):
     length = len(inpt)
     for i in range(length - 1):
-        if inpt[i] in operators_no_repeat and inpt[i]==inpt[i + 1]:
-            raise RepeatingSigneException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
+        if inpt[i] in operator_priority and inpt[i]==inpt[i + 1] :
+            raise UnexpectedCharacterException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
 
     return True
 
@@ -127,13 +119,13 @@ def dev_by_zero(denominator ):
         raise ZeroDivisionError("Division by zero is not allowed.")
     return True
 
-'''def main():
+def main():
     #ex="-5+-3-4*(-2)-2"
-    ex = "~-3"
+    ex = "~-3!"
     #print(is_binary_minus(ex,4))
     inpt=input("enter smth: ")
     while inpt!='.':
-        print(pow_vali(inpt))
+        print(is_binary_minus(ex,int(inpt)))
         inpt = input("enter smth: ")
 
 
