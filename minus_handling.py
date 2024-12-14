@@ -83,3 +83,13 @@ def minus_destroyer(inpt):
             i += 1
 
     return ''.join(inpt)
+
+def main():
+    user_input = input("Enter something: ")
+    while user_input!='.':
+        print(minus_destroyer(user_input))
+        user_input = input("Enter something: ")
+
+
+if __name__ == "__main__":
+    main()
