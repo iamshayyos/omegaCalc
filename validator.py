@@ -1,8 +1,6 @@
-from contextlib import nullcontext
 from customExceptions import *
 from globals import *
-
-
+from minus_handling import *
 def all_white_chars(inpt):
     if not inpt.strip():
         raise AllWhiteSpaceException("Input contains only whitespace.")
@@ -29,7 +27,6 @@ def dot_checker(inpt):
 
         i += 1
     return True
-
 
 
 def unexpected_letters(inpt):
@@ -67,16 +64,6 @@ def factorial_checker(inpt):
         indx += 1
     return True
 
-def is_binary_minus(expression, index):
-    # Check if it's the first character
-    if index == 0:
-        return False  # A minus at the start is unary
-    # Check the character before the minus
-    prev_char = expression[index - 1]
-    # If the character before is in valid_for_unary, it's a unary minus
-    if prev_char in valid_for_unary:
-        return False  # It's a unary minus
-    return True  # Otherwise, it's a binary minus
 
 
 def tilda_checker(inpt):
@@ -111,7 +98,7 @@ def check_not_missing_operand(inpt):
         # Check if the current character is a binary operator
         if char in operator_operands and operator_operands[char] == 2:
                 # Check if the operator is unary minus, if it is returns true
-                if char == '-' and not is_binary_minus(inpt, i) and i < len(inpt) - 1:
+                if char == '-' and not is_binary(i,inpt) and i < len(inpt) - 1:
                     return True
                 # Check if there's a missing operand before the operator
                 if i == 0 or (not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!'):
@@ -141,19 +128,15 @@ def dev_by_zero(denominator ):
     return True
 
 def main():
-    #ex="-5+-3-4*(-2)-2"
-    ex = "2^-3!"
     '''
+    #ex="-5+-3-4*(-2)-2"
+    ex = "2-----2"
     print(is_binary_minus(ex,2))
     inpt=input("enter smth: ")
     while inpt!='.':
         print(is_binary_minus(ex,int(inpt)))
-        inpt = input("enter smth: ")'''
-    try:
-        print(check_not_missing_operand(ex))
-    except MissingOperandsException as e:
-        print(e)
-
+        inpt = input("enter smth: ")
+'''
 
 if __name__ == "__main__":
     main()

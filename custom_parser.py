@@ -1,5 +1,6 @@
 from globals import *
-from validator import is_binary_minus, is_valid_factorial, dev_by_zero, pow_vali
+from validator import is_valid_factorial, dev_by_zero, pow_vali
+from minus_handling import *
 from customExceptions import *
 
 
@@ -26,7 +27,7 @@ def infix_to_postfix(expression):
             output.append(number)  # Append the full number to the output
         # Handle minus (distinguish between unary and binary)
         elif char == '-':
-            if is_binary_minus(expression, i):
+            if is_binary(i,expression):
                 # Binary minus
                 while stack and stack[-1] != '(' and operator_priority.get(stack[-1], 0) >= operator_priority[char]:
                     output.append(stack.pop())

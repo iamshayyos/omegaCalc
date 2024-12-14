@@ -9,7 +9,7 @@ operator_priority = {
     "-": 1,
     "*": 2,
     "/": 2,
-    "_": 2.5,
+    "_": 2.5,#unary minus
     "^": 3,
     "%": 4,
     "@": 5,
@@ -17,7 +17,8 @@ operator_priority = {
     "&": 5,
     "~": 6,
     "!": 6,
-    "#":6
+    "#":6,
+    "`":7#sign minus
 }
 
 # Operators mapped to their corresponding functions
