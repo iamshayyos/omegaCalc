@@ -1,5 +1,7 @@
 from globals import *
-from validator import is_binary_minus
+from validator import is_binary_minus, is_valid_factorial, dev_by_zero, pow_vali
+from customExceptions import *
+
 
 def string_to_lst_conv(inpt):
     return list(inpt)
@@ -60,29 +62,45 @@ def calc(postfix_expression):
             stack.append(float(token) if '.' in token else int(token))
         elif token == '_':
             # Unary minus operator
+            if not stack:
+                raise MissingOperandsException("Missing operand for unary minus.")
             num = stack.pop()
             stack.append(-num)
         elif token in operator_functions:
             if operator_operands[token] == 1:
                 # Unary operator
+                if not stack:
+                    raise MissingOperandsException(f"Missing operand for unary operator '{token}'.")
                 num = stack.pop()
-                stack.append(operator_functions[token](num))
+                if token == '!':
+                    # Ensure num is a non-negative integer
+                    if not is_valid_factorial(num):
+                        raise InvalidFactorialException("Factorial operator '!' cannot follow a number that smaller then 0 or between 0 and 1.")
+                    stack.append(operator_functions[token](num))
+                else:
+                    stack.append(operator_functions[token](num))
             elif operator_operands[token] == 2:
                 # Binary operator
+                if len(stack) < 2:
+                    raise MissingOperandsException(f"Missing operands for binary operator '{token}'.")
                 second = stack.pop()
                 first = stack.pop()
+                if token=='/' and not dev_by_zero(second):
+                    raise ZeroDivisionError("Division by zero is not allowed.")
+                if token=='^' and not pow_vali(first,second):
+                    raise ZeroToThePowerZeroException("Zero to the power of zero is undefined")
                 stack.append(operator_functions[token](first, second))
         else:
             raise ValueError(f"Unsupported operator: {token}")
 
     if len(stack) != 1:
-        raise ValueError("Invalid postfix expression.")
-
+        raise ValueError("Invalid postfix expression. Too many operands left on the stack.")
     return stack[0]
 
 
 
-'''def main():
+
+def main():
     """"
     st = input("Enter something: ")
     print("Converted to list:", string_to_lst_conv(st))
@@ -97,4 +115,4 @@ def calc(postfix_expression):
         x = input("Enter something")
 
 if __name__ == "__main__":
-    main()'''
+    main()

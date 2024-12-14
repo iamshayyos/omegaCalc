@@ -61,3 +61,10 @@ class RepeatingSigneException(Exception):
     def __str__(self):
         return f"RepeatingSigneException: {self.args[0]}"
 
+class MissingOperandsException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def __str__(self):
+        return f"MissingOperandsException: {self.args[0]}"
+

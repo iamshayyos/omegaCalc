@@ -67,20 +67,17 @@ def factorial_checker(inpt):
         indx += 1
     return True
 
-
-
 def is_binary_minus(expression, index):
-     # Characters that allow a unary minus
-
     # Check if it's the first character
     if index == 0:
         return False  # A minus at the start is unary
-
     # Check the character before the minus
     prev_char = expression[index - 1]
+    # If the character before is in valid_for_unary, it's a unary minus
+    if prev_char in valid_for_unary:
+        return False  # It's a unary minus
+    return True  # Otherwise, it's a binary minus
 
-    # If the character before is valid for unary, it's unary
-    return not (prev_char in valid_for_unary)
 
 def tilda_checker(inpt):
     # Tilde cannot be the last character
@@ -100,9 +97,30 @@ def tilda_checker(inpt):
 def repeating_signs(inpt):
     length = len(inpt)
     for i in range(length - 1):
-        if inpt[i] in operator_priority and inpt[i]==inpt[i + 1] :
+        if inpt[i] in operators_no_repeat and inpt[i]==inpt[i + 1] :
             raise RepeatingSigneException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
 
+    return True
+
+
+def check_not_missing_operand(inpt):
+    i = 0
+    while i < len(inpt):
+        char = inpt[i]
+
+        # Check if the current character is a binary operator
+        if char in operator_operands and operator_operands[char] == 2:
+                # Check if the operator is unary minus, if it is returns true
+                if char == '-' and not is_binary_minus(inpt, i) and i < len(inpt) - 1:
+                    return True
+                # Check if there's a missing operand before the operator
+                if i == 0 or (not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!'):
+                    raise MissingOperandsException(f"Missing operand before operator '{char}' at position {i}")
+                # Check if there's a missing operand after the operator
+                if i == len(inpt) - 1 or (
+                        not inpt[i + 1].isdigit() and inpt[i + 1] != '(' and inpt[i + 1] != '~' and inpt[i + 1] != '-'):
+                    raise MissingOperandsException(f"Missing operand after operator '{char}' at position {i}")
+        i += 1
     return True
 
 
@@ -110,23 +128,31 @@ def repeating_signs(inpt):
 
 def pow_vali(base,exponent):
     if base==0 and exponent==0:
-        raise ZeroToThePowerZeroException
+        return False
     return True
 
+def is_valid_factorial(num):
+    if num<0 or 0<num<1: return False
+    return True
 
 def dev_by_zero(denominator ):
     if not denominator==0:
-        raise ZeroDivisionError("Division by zero is not allowed.")
+        return False
     return True
 
 def main():
     #ex="-5+-3-4*(-2)-2"
-    ex = "~-3!"
-    #print(is_binary_minus(ex,4))
+    ex = "2^-3!"
+    '''
+    print(is_binary_minus(ex,2))
     inpt=input("enter smth: ")
     while inpt!='.':
         print(is_binary_minus(ex,int(inpt)))
-        inpt = input("enter smth: ")
+        inpt = input("enter smth: ")'''
+    try:
+        print(check_not_missing_operand(ex))
+    except MissingOperandsException as e:
+        print(e)
 
 
 if __name__ == "__main__":
