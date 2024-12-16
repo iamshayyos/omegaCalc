@@ -34,15 +34,35 @@ def factorial(num):
     else:
         return num*factorial(num-1)
 
-def hash_addition(num):
-    summ=0
-    for digit in num:
-        if digit !='.':
-            summ+=int(digit)
-    return summ
+def hashtag(num):
+    num_str = str(num)
+    is_negative = num_str.startswith('-')
+
+    # Remove the minus sign if it exists
+    if is_negative:
+        num_str = num_str[1:]
+
+    # Sum only the digits (ignore other characters like '.')
+    total = sum(int(digit) for digit in num_str if digit.isdigit())
+
+    # Return the sum as negative if the original number was negative
+    return -total if is_negative else total
+    '''
+    f=False
+    num_lst = list(str(num))
+    num=0
+    if num_lst[0]=="-":
+        num_lst[0]=num_lst[0]*(-1)
+        f=True
+    for n in num_lst:#insted of using reduce
+        num+=int(n)
+    if f:
+        return num*-1
+    return num'''
+
 
 def main():
-    print(hash_addition((input("enter number"))))
+    print(hashtag((input("enter number"))))
 if __name__ == "__main__":
     main()
 

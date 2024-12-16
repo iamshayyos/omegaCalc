@@ -31,7 +31,7 @@ def dot_checker(inpt):
 
 def unexpected_letters(inpt):
     for char in inpt:
-        if not char.isdigit() and char not in operator_priority and char != '(' and char != ')' and char != '.':
+        if not char.isdigit() and char not in supported_operators and char != '(' and char != ')' and char != '.':
             raise UnexpectedCharacterException(f"Unexpected character found: '{char}'")
     return True
 
@@ -63,6 +63,16 @@ def factorial_checker(inpt):
                 raise InvalidFactorialException("Factorial operator '!' cannot follow a negative sign '-'.")'''
         indx += 1
     return True
+
+'''def hash_checker(inpt):
+    i=0
+    if inpt[i]==0:
+        raise HashtagException("Hashtag # cannot be the first character in the expression.")
+    else:
+        while i<len(inpt):
+            if inpt[i]=='#' and len(inpt)>1:
+   '''
+
 
 
 

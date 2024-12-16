@@ -1,5 +1,5 @@
 from globals import *
-from validator import is_valid_factorial, dev_by_zero, pow_vali,incorrect_pow
+from validator import is_valid_factorial, dev_by_zero, pow_vali,incorrect_pow,tilda_checker
 from minus_handling import *
 from customExceptions import *
 
@@ -17,6 +17,7 @@ def infix_to_postfix(expression):
     i = 0
 
     expression = minus_destroyer(expression)
+    tilda_checker(expression)
     while i < len(expression):
         char = expression[i]
 
@@ -91,22 +92,22 @@ def calc(postfix_expression):
                 if token == '!':
                     # Ensure num is a non-negative integer
                     if not is_valid_factorial(num):
-                        raise InvalidFactorialException("Factorial operator '!' cannot follow a number that is smaller than 0 or between 0 and 1.")
+                        raise InvalidFactorialException("Factorial operator '!' cannot follow a number that smaller than 0 or between 0 and 1.")
                     stack.append(operator_functions[token](num))
                 else:
                     stack.append(operator_functions[token](num))
             elif operator_operands[token] == 2:
                 # Binary operator
                 if len(stack) < 2:
-                    raise MissingOperandsException(f"Missing operands for binary operator '{token}'.")
+                    raise MissingOperandsException(f"Missing operands for binary operator: '{stack[-1]}''{token}_'.")
                 second = stack.pop()
                 first = stack.pop()
                 if token == '/' and not dev_by_zero(second):
                     raise ZeroDivisionError("Division by zero is not allowed.")
                 if token == '^' and not pow_vali(first, second):
-                    raise ZeroToThePowerZeroException("Zero to the power of zero is undefined.")
+                    raise PowerException("Zero to the power of zero is undefined.")
                 if token =='^' and not incorrect_pow(first,second):
-                    raise NegativeRootException(f"Invalid operation: cannot compute an even root of a negative number  '{first}' in a power of '{second}'.")
+                    raise PowerException(f"Invalid operation: cannot compute an even root of a negative number  '{first}' in a power of '{second}'.")
                 stack.append(operator_functions[token](first, second))
         else:
             raise ValueError(f"Unsupported operator: {token}")

@@ -45,7 +45,14 @@ class InvalidTildeException(Exception):
     def __str__(self):
         return f"InvalidTildeException: {self.args[0]}"
 
+class PowerException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
 
+    def __str__(self):
+        return f"PowerZeroException:: {self.args[0]}"
+
+'''
 class ZeroToThePowerZeroException(Exception):
     def __init__(self, message):
         super().__init__(message)
@@ -59,7 +66,7 @@ class NegativeRootException(Exception):
 
     def __str__(self):
         return f"NegativeRootException: {self.args[0]}"
-
+'''
 class RepeatingSigneException(Exception):
     def __init__(self, message):
         super().__init__(message)
@@ -73,4 +80,13 @@ class MissingOperandsException(Exception):
 
     def __str__(self):
         return f"MissingOperandsException: {self.args[0]}"
+
+class HashtagException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def __str__(self):
+        return f"HashtagException: {self.args[0]}"
+
+
 
