@@ -28,14 +28,14 @@ def calculate(inpt):
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
 
-    '''
+
     print("Input is valid:", inpt)
-    print("Starting calculation")'''
+    print("Starting calculation")
 
     while True:
         try:
             postfix = infix_to_postfix(inpt)  # Convert to postfix once
-            #print("Postfix Expression:", postfix)
+            print("Postfix Expression:", postfix)
             result = calc(postfix)            # Calculate the result
             print("Result:", result)
             break

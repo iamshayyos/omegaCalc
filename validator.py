@@ -78,17 +78,22 @@ def factorial_checker(inpt):
 
 def tilda_checker(inpt):
     # Tilde cannot be the last character
-    if inpt[len(inpt) - 1] == '~':
+    if inpt[-1] == '~':
         raise InvalidTildeException("Tilde '~' cannot be the last character in the expression.")
 
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
-            if indx < len(inpt) - 1:
-                next_char = inpt[indx + 1]
-                # Tilde must be followed directly by a digit or a valid unary minus (-)
-                if not (next_char.isdigit() or (next_char == '-' and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
-                    raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit or a unary minus '-'.")
+            if indx >= len(inpt) - 1:
+                raise InvalidTildeException("Tilde '~' must be followed by a digit or a valid unary minus.")
+
+            next_char = inpt[indx + 1]
+            # Check if followed by a digit, unary minus '-', or sign minus '`'
+            if not (next_char.isdigit() or
+                    (next_char in ('_', '`') and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
+                raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit, unary minus '-', or sign minus '`'.")
+
     return True
+
 
 
 def repeating_signs(inpt):
@@ -128,7 +133,6 @@ def pow_vali(base,exponent):
 
 def incorrect_pow(base,exponent):
     return False if (base < 0 < exponent < 1) else True
-
 
 def is_valid_factorial(num):
     if num<0 or 0<num<1: return False
