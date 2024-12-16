@@ -114,9 +114,11 @@ def check_not_missing_operand(inpt):
 '''הפונקציות שמתחת יקראו בזמן החישוב עצמו ולא במהלך הבדיקה המקדימה'''
 
 def pow_vali(base,exponent):
-    if base==0 and exponent==0:
-        return False
-    return True
+    return False if base==0 and exponent==0 else True
+
+def incorrect_pow(base,exponent):
+    return False if (base < 0 < exponent < 1) else True
+
 
 def is_valid_factorial(num):
     if num<0 or 0<num<1: return False

@@ -1,5 +1,5 @@
 from globals import *
-from validator import is_valid_factorial, dev_by_zero, pow_vali
+from validator import is_valid_factorial, dev_by_zero, pow_vali,incorrect_pow
 from minus_handling import *
 from customExceptions import *
 
@@ -105,6 +105,8 @@ def calc(postfix_expression):
                     raise ZeroDivisionError("Division by zero is not allowed.")
                 if token == '^' and not pow_vali(first, second):
                     raise ZeroToThePowerZeroException("Zero to the power of zero is undefined.")
+                if token =='^' and not incorrect_pow(first,second):
+                    raise NegativeRootException(f"Invalid operation: cannot compute an even root of a negative number  '{first}' in a power of '{second}'.")
                 stack.append(operator_functions[token](first, second))
         else:
             raise ValueError(f"Unsupported operator: {token}")
