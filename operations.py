@@ -33,10 +33,15 @@ def factorial(num):
         return 1
     else:
         return num*factorial(num-1)
-
+def hash_addition(num):
+    summ=0
+    for digit in num:
+        if digit !='.':
+            summ+=int(digit)
+    return summ
 
 def main():
-    print(factorial(int(input("enter number"))))
+    print(hash_addition((input("enter number"))))
 if __name__ == "__main__":
     main()
 
