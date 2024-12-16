@@ -39,7 +39,7 @@ def calculate(inpt):
             result = calc(postfix)            # Calculate the result
             print("Result:", result)
             break
-        except (ZeroToThePowerZeroException, InvalidFactorialException, ZeroDivisionError) as e:
+        except (ZeroToThePowerZeroException,NegativeRootException, InvalidFactorialException, ZeroDivisionError) as e:
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
             # Re-validate the new input

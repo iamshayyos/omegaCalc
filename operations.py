@@ -33,6 +33,7 @@ def factorial(num):
         return 1
     else:
         return num*factorial(num-1)
+
 def hash_addition(num):
     summ=0
     for digit in num:

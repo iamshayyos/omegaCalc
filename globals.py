@@ -17,8 +17,8 @@ operator_priority = {
     "&": 5,
     "~": 6,
     "!": 6,
-    "#":6,
-    "`":7#sign minus
+    "#": 6,
+    "`": 7#sign minus
 }
 
 # Operators mapped to their corresponding functions
@@ -34,7 +34,8 @@ operator_functions = {
     "&": min_value,
     "~": negative,
     "!": factorial,
-    "`": lambda x: -x
+    "`": lambda x: -x,
+    "#":hash_addition
 }
 
 # Number of operands each operator requires
@@ -50,5 +51,6 @@ operator_operands = {
     "&": 2,
     "~": 1,
     "!": 1,
-    "`": 1
+    "`": 1,
+    "#":1
 }
