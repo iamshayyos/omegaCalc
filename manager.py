@@ -16,9 +16,6 @@ def calculate(inpt):
             unexpected_letters(inpt)
             dot_checker(inpt)
 
-            #minus handling
-            inpt = minus_destroyer(inpt)
-
             tilda_checker(inpt)
             repeating_signs(inpt)
             brackets_checker(inpt)
@@ -52,9 +49,6 @@ def calculate(inpt):
                     inpt = white_spaces_remover(inpt)
                     unexpected_letters(inpt)
                     dot_checker(inpt)
-
-                    # minus handling
-                    inpt = minus_destroyer(inpt)
 
                     tilda_checker(inpt)
                     repeating_signs(inpt)

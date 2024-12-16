@@ -14,10 +14,12 @@ def white_spaces_remover(inpt):
 def infix_to_postfix(expression):
     output = []  # Postfix expression
     stack = []  # Operator stack
-
     i = 0
+
+    expression = minus_destroyer(expression)
     while i < len(expression):
         char = expression[i]
+
         # Check for numbers (multi-digit and with potential decimals)
         if char.isdigit():
             number = char
@@ -25,34 +27,41 @@ def infix_to_postfix(expression):
                 i += 1
                 number += expression[i]
             output.append(number)  # Append the full number to the output
-        # Handle minus (distinguish between unary and binary)
-        elif char == '-':
-            if is_binary(i,expression):
-                # Binary minus
-                while stack and stack[-1] != '(' and operator_priority.get(stack[-1], 0) >= operator_priority[char]:
-                    output.append(stack.pop())
-                stack.append(char)
-            else:
-                # Unary minus
-                stack.append('_')
+
+        # Handle sign minus ` (highest priority)
+        elif char == '`':
+            while stack and operator_priority.get(stack[-1], 0) >= operator_priority[char]:
+                output.append(stack.pop())
+            stack.append(char)
+
+        # Handle unary minus _
+        elif char == '_':
+            stack.append('_')
+
         # Handle other operators
         elif char in supported_operators:
             while stack and stack[-1] != '(' and operator_priority.get(stack[-1], 0) >= operator_priority[char]:
                 output.append(stack.pop())
             stack.append(char)
+
         # Handle opening parenthesis
         elif char == '(':
             stack.append(char)
+
         # Handle closing parenthesis
         elif char == ')':
             while stack and stack[-1] != '(':
                 output.append(stack.pop())
             stack.pop()  # Remove '(' from the stack
+
         i += 1
+
     # Pop any remaining operators from the stack to the output
     while stack:
         output.append(stack.pop())
+
     return output
+
 
 def calc(postfix_expression):
     stack = []
@@ -67,6 +76,12 @@ def calc(postfix_expression):
                 raise MissingOperandsException("Missing operand for unary minus.")
             num = stack.pop()
             stack.append(-num)
+        elif token == '`':
+            # Sign minus operator (highest priority unary negation)
+            if not stack:
+                raise MissingOperandsException("Missing operand for sign minus.")
+            num = stack.pop()
+            stack.append(-num)
         elif token in operator_functions:
             if operator_operands[token] == 1:
                 # Unary operator
@@ -76,7 +91,7 @@ def calc(postfix_expression):
                 if token == '!':
                     # Ensure num is a non-negative integer
                     if not is_valid_factorial(num):
-                        raise InvalidFactorialException("Factorial operator '!' cannot follow a number that smaller then 0 or between 0 and 1.")
+                        raise InvalidFactorialException("Factorial operator '!' cannot follow a number that is smaller than 0 or between 0 and 1.")
                     stack.append(operator_functions[token](num))
                 else:
                     stack.append(operator_functions[token](num))
@@ -86,10 +101,10 @@ def calc(postfix_expression):
                     raise MissingOperandsException(f"Missing operands for binary operator '{token}'.")
                 second = stack.pop()
                 first = stack.pop()
-                if token=='/' and not dev_by_zero(second):
+                if token == '/' and not dev_by_zero(second):
                     raise ZeroDivisionError("Division by zero is not allowed.")
-                if token=='^' and not pow_vali(first,second):
-                    raise ZeroToThePowerZeroException("Zero to the power of zero is undefined")
+                if token == '^' and not pow_vali(first, second):
+                    raise ZeroToThePowerZeroException("Zero to the power of zero is undefined.")
                 stack.append(operator_functions[token](first, second))
         else:
             raise ValueError(f"Unsupported operator: {token}")
@@ -97,6 +112,7 @@ def calc(postfix_expression):
     if len(stack) != 1:
         raise ValueError("Invalid postfix expression. Too many operands left on the stack.")
     return stack[0]
+
 
 
 

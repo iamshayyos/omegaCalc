@@ -33,7 +33,8 @@ operator_functions = {
     "$": max_value,
     "&": min_value,
     "~": negative,
-    "!": factorial
+    "!": factorial,
+    "`": lambda x: -x
 }
 
 # Number of operands each operator requires
@@ -48,5 +49,6 @@ operator_operands = {
     "$": 2,
     "&": 2,
     "~": 1,
-    "!": 1
+    "!": 1,
+    "`": 1
 }
