@@ -3,6 +3,7 @@ from operations import *
 operators_no_repeat = {'+', '*', '/', '^', '%', '@', '$', '&', '~'}
 supported_operators = {'+', '-', '*', '/', '^', '%', '&', '$', '@', '!', '~','#'}
 valid_for_unary = {'+', '-', '*', '/', '^', '(', '~'}
+binary_operators = {'+', '-', '*', '/', '^', '%', '@', '$', '&'}
 # Operator priorities for parsing expressions
 operator_priority = {
     "+": 1,

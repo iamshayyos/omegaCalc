@@ -74,6 +74,15 @@ def factorial_checker(inpt):
    '''
 
 
+def hash_vali(inpt):
+    if inpt[0] == '#':
+        raise HashtagException("Hashtag '#' cannot start the expression.")
+
+    for i in range(len(inpt)):
+        if inpt[i] == '#':
+            # Check if # is followed by a digit
+            if i + 1 < len(inpt) and inpt[i + 1].isdigit():
+                raise HashtagException("Hashtag '#' cannot be followed by a digit.")
 
 
 def tilda_checker(inpt):
@@ -92,6 +101,8 @@ def tilda_checker(inpt):
                     (next_char in ('_', '`') and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
                 raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit, unary minus '-', or sign minus '`'.")
 
+
+
     return True
 
 
@@ -100,9 +111,16 @@ def repeating_signs(inpt):
     length = len(inpt)
     for i in range(length - 1):
         if inpt[i] in operators_no_repeat and inpt[i]==inpt[i + 1] :
-            raise RepeatingSigneException(f"Repeating signs detected: '{inpt[i]}' followed by '{inpt[i + 1]}'")
+            raise RepeatingSigneException(f"Repeating signs detected: {inpt[i]} followed by {inpt[i + 1]}")
 
     return True
+
+def is_valid_tilde(inpt):
+    for indx in range(len(inpt)):
+        if inpt[indx] == '~':
+            # Check if the character before ~ is not a binary operator
+            if inpt[indx - 1] not in binary_operators and inpt[indx - 1]!='(' :
+                raise InvalidTildeException("Invalid placement of tilde '~'. It must follow a binary operator.")
 
 
 def check_not_missing_operand(inpt):
@@ -117,13 +135,13 @@ def check_not_missing_operand(inpt):
                     return True
                 # Check if there's a missing operand before the operator
                 if i == 0 or (not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!'):
-                    raise MissingOperandsException(f"Missing operand before operator '{char}' at position {i}")
+                    raise MissingOperandsException(f"Missing operand before operator {char} at position {i}")
                 # Check if there's a missing operand after the operator
-                if i == len(inpt) - 1 or (
-                        not inpt[i + 1].isdigit() and inpt[i + 1] != '(' and inpt[i + 1] != '~' and inpt[i + 1] != '-'):
-                    raise MissingOperandsException(f"Missing operand after operator '{char}' at position {i}")
+                if i == len(inpt) - 1 or (not inpt[i + 1].isdigit() and inpt[i + 1] != '(' and inpt[i + 1] != '~' and inpt[i + 1] != '-'):
+                    raise MissingOperandsException(f"Missing operand after operator {char} at position {i}")
         i += 1
     return True
+
 
 
 '''הפונקציות שמתחת יקראו בזמן החישוב עצמו ולא במהלך הבדיקה המקדימה'''

@@ -31,7 +31,7 @@ def is_unary_minus(pos, inpt):
 
 def is_binary(pos,inpt):
     if pos==0: return False
-    if len(inpt)>1 and not inpt[pos-1].isdigit():
+    if len(inpt)>1 and not (inpt[pos-1].isdigit() or inpt[pos-1]=='!' or inpt[pos-1]=='#'):
         return False
     return True
 

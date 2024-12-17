@@ -99,7 +99,7 @@ def calc(postfix_expression):
             elif operator_operands[token] == 2:
                 # Binary operator
                 if len(stack) < 2:
-                    raise MissingOperandsException(f"Missing operands for binary operator: '{stack[-1]}''{token}_'.")
+                    raise MissingOperandsException(f"Missing operands for binary operator: {stack[-1]}{token}_.")
                 second = stack.pop()
                 first = stack.pop()
                 if token == '/' and not dev_by_zero(second):
@@ -107,7 +107,7 @@ def calc(postfix_expression):
                 if token == '^' and not pow_vali(first, second):
                     raise PowerException("Zero to the power of zero is undefined.")
                 if token =='^' and not incorrect_pow(first,second):
-                    raise PowerException(f"Invalid operation: cannot compute an even root of a negative number  '{first}' in a power of '{second}'.")
+                    raise PowerException(f"Invalid operation: cannot compute an even root of a negative number  {first} in a power of {second}.")
                 stack.append(operator_functions[token](first, second))
         else:
             raise ValueError(f"Unsupported operator: {token}")

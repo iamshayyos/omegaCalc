@@ -16,6 +16,8 @@ def calculate(inpt):
             unexpected_letters(inpt)
             dot_checker(inpt)
 
+            is_valid_tilde(inpt)
+            hash_vali(inpt)
             repeating_signs(inpt)
             brackets_checker(inpt)
             check_not_missing_operand(inpt)
@@ -24,7 +26,7 @@ def calculate(inpt):
             break  # If all checks pass, break the loop
         except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
                 RepeatingSigneException, MismatchedBracketsException, InvalidFactorialException,
-                MissingOperandsException) as e:
+                MissingOperandsException,HashtagException,InvalidTildeException) as e:
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
 
@@ -50,6 +52,8 @@ def calculate(inpt):
                     unexpected_letters(inpt)
                     dot_checker(inpt)
 
+                    is_valid_tilde(inpt)
+                    hash_vali(inpt)
                     repeating_signs(inpt)
                     brackets_checker(inpt)
                     check_not_missing_operand(inpt)
@@ -57,7 +61,7 @@ def calculate(inpt):
                     break
                 except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
                         RepeatingSigneException, MismatchedBracketsException, InvalidFactorialException,
-                        MissingOperandsException) as e:
+                        MissingOperandsException,HashtagException,InvalidTildeException) as e:
                     print(f"Error: {e}")
                     inpt = input("Please enter a valid expression: ")
 
