@@ -68,56 +68,69 @@ def calc(postfix_expression):
     stack = []
 
     for token in postfix_expression:
+        # Handle numbers (integers and floats)
         if token.isdigit() or '.' in token:
-            # Convert to float if there's a decimal point, otherwise to int
             stack.append(float(token) if '.' in token else int(token))
+
+        # Handle unary minus '_'
         elif token == '_':
-            # Unary minus operator
             if not stack:
-                raise MissingOperandsException("Missing operand for unary minus.")
+                raise MissingOperandsException("Missing operand for unary minus '_'.")
             num = stack.pop()
             stack.append(-num)
+
+        # Handle sign minus '`'
         elif token == '`':
-            # Sign minus operator (highest priority unary negation)
             if not stack:
-                raise MissingOperandsException("Missing operand for sign minus.")
+                raise MissingOperandsException("Missing operand for sign minus '`'.")
             num = stack.pop()
             stack.append(-num)
+
+        # Handle supported operators
         elif token in operator_functions:
+            # Unary operators
             if operator_operands[token] == 1:
-                # Unary operator
                 if not stack:
                     raise MissingOperandsException(f"Missing operand for unary operator '{token}'.")
                 num = stack.pop()
                 if token == '!':
                     # Ensure num is a non-negative integer
                     if not is_valid_factorial(num):
-                        raise InvalidFactorialException("Factorial operator '!' cannot follow a number that smaller than 0 or between 0 and 1.")
+                        raise InvalidFactorialException(
+                            "Factorial operator '!' cannot follow a number smaller than 0 or between 0 and 1.")
                     stack.append(operator_functions[token](num))
                 else:
                     stack.append(operator_functions[token](num))
+
+            # Binary operators
             elif operator_operands[token] == 2:
-                # Binary operator
                 if len(stack) < 2:
-                    raise MissingOperandsException(f"Missing operands for binary operator: {stack[-1]}{token}_.")
+                    raise MissingOperandsException(f"Missing operands for binary operator '{token}'.")
                 second = stack.pop()
                 first = stack.pop()
+
+                # Check for division by zero
                 if token == '/' and not dev_by_zero(second):
                     raise ZeroDivisionError("Division by zero is not allowed.")
+
+                # Check for invalid power operations
                 if token == '^' and not pow_vali(first, second):
                     raise PowerException("Zero to the power of zero is undefined.")
-                if token =='^' and not incorrect_pow(first,second):
-                    raise PowerException(f"Invalid operation: cannot compute an even root of a negative number  {first} in a power of {second}.")
+                if token == '^' and not incorrect_pow(first, second):
+                    raise PowerException(
+                        f"Invalid operation: cannot compute an even root of a negative number {first} in a power of {second}.")
+
                 stack.append(operator_functions[token](first, second))
+
+        # Unsupported operator
         else:
             raise ValueError(f"Unsupported operator: {token}")
 
+    # Final validation: There should be exactly one value left on the stack
     if len(stack) != 1:
         raise ValueError("Invalid postfix expression. Too many operands left on the stack.")
+
     return stack[0]
-
-
-
 
 
 def main():

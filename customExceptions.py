@@ -29,6 +29,13 @@ class MismatchedBracketsException(Exception):
     def __str__(self):
         return f"MismatchedBracketsException: {self.args[0]}"
 
+class EmptyBracketsException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def __str__(self):
+        return f"EmptyBracketsException: {self.args[0]}"
+
 
 class InvalidFactorialException(Exception):
     def __init__(self, message):
@@ -50,7 +57,7 @@ class PowerException(Exception):
         super().__init__(message)
 
     def __str__(self):
-        return f"PowerZeroException:: {self.args[0]}"
+        return f"PowerZeroException: {self.args[0]}"
 
 '''
 class ZeroToThePowerZeroException(Exception):

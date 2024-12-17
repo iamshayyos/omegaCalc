@@ -37,18 +37,32 @@ def unexpected_letters(inpt):
 
 
 def brackets_checker(inpt):
-    brackets_stack = []
-    for char in inpt:
+    brackets_stack = []  # Stack to keep track of the positions of opening brackets '('
+
+    # Iterate through each character in the input string
+    for i, char in enumerate(inpt):
+        # If the character is an opening bracket '(', push its position onto the stack
         if char == '(':
-            brackets_stack.append('(')
+            brackets_stack.append(i)
+
+        # If the character is a closing bracket ')'
         if char == ')':
+            # If the stack is empty, there's no matching opening bracket
             if len(brackets_stack) == 0:
                 raise MismatchedBracketsException("Mismatched closing bracket ')'.")
-            brackets_stack.pop()
 
+            # Pop the position of the last unmatched opening bracket '('
+            opening_index = brackets_stack.pop()
+
+            # Check if the parentheses are empty (i.e., no content between '(' and ')')
+            if i - opening_index == 1:
+                raise EmptyBracketsException("Empty parentheses '()' are not allowed.")
+
+    # After iterating through the input, if the stack is not empty, there are unmatched '('
     if len(brackets_stack) != 0:
         raise MismatchedBracketsException("Mismatched opening bracket '('.")
-    return True
+
+    return True  # The input is valid if no exceptions were raised
 
 
 def factorial_checker(inpt):
@@ -59,19 +73,8 @@ def factorial_checker(inpt):
                 raise InvalidFactorialException("Expression cannot start with a factorial operator '!'.")
             if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')':
                 raise InvalidFactorialException("Factorial operator '!' must follow a digit or a closing parenthesis ')'.")
-            '''if indx >= 2 and inpt[indx - 2] == '-':
-                raise InvalidFactorialException("Factorial operator '!' cannot follow a negative sign '-'.")'''
         indx += 1
     return True
-
-'''def hash_checker(inpt):
-    i=0
-    if inpt[i]==0:
-        raise HashtagException("Hashtag # cannot be the first character in the expression.")
-    else:
-        while i<len(inpt):
-            if inpt[i]=='#' and len(inpt)>1:
-   '''
 
 
 def hash_vali(inpt):
@@ -93,17 +96,15 @@ def tilda_checker(inpt):
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
             if indx >= len(inpt) - 1:
-                raise InvalidTildeException("Tilde '~' must be followed by a digit or a valid unary minus.")
+                raise InvalidTildeException("Tilde '~' must be followed by a digit, unary minus '-', sign minus '`', or an opening parenthesis '('.")
 
             next_char = inpt[indx + 1]
-            # Check if followed by a digit, unary minus '-', or sign minus '`'
-            if not (next_char.isdigit() or
-                    (next_char in ('_', '`') and indx + 2 < len(inpt) and inpt[indx + 2].isdigit())):
-                raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit, unary minus '-', or sign minus '`'.")
-
-
+            # Check if followed by a digit, unary minus '_', sign minus '`', or an opening parenthesis '('
+            if not (next_char.isdigit() or next_char in ('_', '`', '(')):
+                raise InvalidTildeException("Invalid placement of tilde '~'. It must be followed by a digit, unary minus '-', sign minus '`', or an opening parenthesis '('.")
 
     return True
+
 
 
 
@@ -118,6 +119,8 @@ def repeating_signs(inpt):
 def is_valid_tilde(inpt):
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
+            if indx==0:
+                continue
             # Check if the character before ~ is not a binary operator
             if inpt[indx - 1] not in binary_operators and inpt[indx - 1]!='(' :
                 raise InvalidTildeException("Invalid placement of tilde '~'. It must follow a binary operator.")
@@ -150,16 +153,14 @@ def pow_vali(base,exponent):
     return False if base==0 and exponent==0 else True
 
 def incorrect_pow(base,exponent):
-    return False if (base < 0 < exponent < 1) else True
+    return False if (base < 0 < exponent < 1 or (base<0 and -1<exponent<0) ) else True
 
 def is_valid_factorial(num):
     if num<0 or 0<num<1: return False
     return True
 
 def dev_by_zero(denominator ):
-    if not denominator==0:
-        return False
-    return True
+    return denominator!=0
 
 def main():
     '''

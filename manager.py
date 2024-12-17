@@ -26,7 +26,7 @@ def calculate(inpt):
             break  # If all checks pass, break the loop
         except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
                 RepeatingSigneException, MismatchedBracketsException, InvalidFactorialException,
-                MissingOperandsException,HashtagException,InvalidTildeException) as e:
+                MissingOperandsException,HashtagException,InvalidTildeException,EmptyBracketsException) as e:
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
 
@@ -39,7 +39,7 @@ def calculate(inpt):
             postfix = infix_to_postfix(inpt)  # Convert to postfix once
             print("Postfix Expression:", postfix)
             result = calc(postfix)            # Calculate the result
-            print("Result:", result)
+            print("Result:", float(result))
             break
         except (PowerException, InvalidFactorialException, ZeroDivisionError,MissingOperandsException,InvalidTildeException) as e:
             print(f"Error: {e}")
@@ -61,7 +61,7 @@ def calculate(inpt):
                     break
                 except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
                         RepeatingSigneException, MismatchedBracketsException, InvalidFactorialException,
-                        MissingOperandsException,HashtagException,InvalidTildeException) as e:
+                        MissingOperandsException,HashtagException,InvalidTildeException,EmptyBracketsException) as e:
                     print(f"Error: {e}")
                     inpt = input("Please enter a valid expression: ")
 
