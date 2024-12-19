@@ -27,15 +27,17 @@ def avg(first, second):
     return (first + second) / 2
 
 def negative(num):
-    return -num
+    return str(-float(num))
 
 def factorial(num):
+    num=float(num)
     if num==0 or num==1:
         return 1
     else:
         return num*factorial(num-1)
 
 def hashtag(num):
+    print(isinstance(num,str))
     num_str = str(num)
     print(num_str)
     is_negative = num_str.startswith('-')

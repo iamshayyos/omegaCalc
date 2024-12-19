@@ -27,7 +27,7 @@ def infix_to_postfix(expression):
             while i + 1 < len(expression) and (expression[i + 1].isdigit() or expression[i + 1] == '.'):
                 i += 1
                 number += expression[i]
-            output.append(number)  # Append the full number to the output
+            output.append(str(number))  # Ensure the full number is appended as a string
 
         # Handle sign minus ` (highest priority)
         elif char == '`':
@@ -61,6 +61,9 @@ def infix_to_postfix(expression):
     while stack:
         output.append(stack.pop())
 
+    # Ensure all numbers in the output are strings
+    output = [str(token) for token in output]
+
     return output
 
 
@@ -70,21 +73,21 @@ def calc(postfix_expression):
     for token in postfix_expression:
         # Handle numbers (integers and floats)
         if token.isdigit() or '.' in token:
-            stack.append(float(token) if '.' in token else int(token))
+            stack.append(str(token) if '.' in token else str(token))
 
         # Handle unary minus '_'
         elif token == '_':
             if not stack:
                 raise MissingOperandsException("Missing operand for unary minus '_'.")
             num = stack.pop()
-            stack.append(-num)
+            stack.append(str(-int(num)))
 
         # Handle sign minus '`'
         elif token == '`':
             if not stack:
                 raise MissingOperandsException("Missing operand for sign minus '`'.")
             num = stack.pop()
-            stack.append(-num)
+            stack.append(str(-float(num)))
 
         # Handle supported operators
         elif token in operator_functions:
@@ -99,7 +102,7 @@ def calc(postfix_expression):
                         raise InvalidFactorialException("Factorial operator '!' cannot follow a number smaller than 0 or between 0 and 1.")
                     if is_valid_factorial(num)==2:
                         raise InvalidFactorialException("Factorial operator '!' cannot follow non integer number")
-                    if num>170:
+                    if float(num)>170:
                         raise  LargeNumberException("The largest number that this calculator can handle for factorial is 170.")
                     stack.append(operator_functions[token](num))
                 else:
@@ -109,27 +112,33 @@ def calc(postfix_expression):
             elif operator_operands[token] == 2:
                 if len(stack) < 2:
                     raise MissingOperandsException(f"Missing operands for binary operator '{token}'.")
-                second = stack.pop()
-                first = stack.pop()
+                second = float(stack.pop())
+                first = float(stack.pop())
 
                 # Check for division by zero
                 if token == '/' and not dev_by_zero(second):
                     raise ZeroDivisionError("Division by zero is not allowed.")
 
-                # Check for invalid power operations
-                if token == '^' and not pow_vali(first, second):
-                    raise PowerException("Zero to the power of zero is undefined.")
-                if token == '^' and not incorrect_pow(first, second):
-                    raise PowerException(f"Invalid operation: cannot compute an even root of a negative number {first} in a power of {second}.")
-                # Check for large results (overflow)
-                if second > 308: raise LargeNumberException("Result too large to compute.")
-                # Check for large results (overflow)
-                if (first ** second)>1.7976931348623157e+308:
-                    raise LargeNumberException("Result too large to compute.")
-                # Check for small results (underflow)
-                if 0<(first**second)< 5e-324:
-                    raise SmallNumberException("Result too small to represent (underflow).")
+                if token=='^':
+                    # Check for invalid power operations
+                    if not pow_vali(first, second):
+                        raise PowerException("Zero to the power of zero is undefined.")
+                    if not incorrect_pow(first, second):
+                        raise PowerException(
+                            f"Invalid operation: cannot compute an even root of a negative number {first} in a power of {second}.")
 
+                    try:
+                        # Check for large results (overflow)
+                        if second > 308:
+                            raise LargeNumberException("Result too large to compute.")
+                         # Check for large results (overflow)
+                        if (first ** second)>1.7976931348623157e+308:
+                            raise LargeNumberException("Result too large to compute.")
+                        # Check for small results (underflow)
+                        if  0<(first**second)< 5e-324:
+                            raise SmallNumberException("Result too small to represent (underflow).")
+                    except OverflowError:
+                        raise LargeNumberException("Result too large to compute.")
                 stack.append(operator_functions[token](first, second))
 
         # Unsupported operator
