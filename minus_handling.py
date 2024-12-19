@@ -31,7 +31,7 @@ def is_unary_minus(pos, inpt):
 
 def is_binary(pos,inpt):
     if pos==0: return False
-    if len(inpt)>1 and not (inpt[pos-1].isdigit() or inpt[pos-1]=='!' or inpt[pos-1]=='#'):
+    if len(inpt)>1 and not (inpt[pos-1].isdigit() or inpt[pos-1]=='!' or inpt[pos-1]=='#' or inpt[pos-1]==')'):
         return False
     return True
 
@@ -86,6 +86,7 @@ def minus_destroyer(inpt):
 
 def main():
     user_input = input("Enter something: ")
+    print(is_binary(1,user_input))
     while user_input!='.':
         print(minus_destroyer(user_input))
         user_input = input("Enter something: ")

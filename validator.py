@@ -130,7 +130,7 @@ def is_valid_tilde(inpt):
             if indx==0:
                 continue
             # Check if the character before ~ is not a binary operator
-            if inpt[indx - 1] not in binary_operators and inpt[indx - 1]!='(' :
+            if inpt[indx - 1] not in binary_operators and inpt[indx - 1]!='(' and not (inpt[indx - 1]=='-' and is_binary(indx-1,inpt)):
                 raise InvalidTildeException("Invalid placement of tilde '~'. It must follow a binary operator.")
 
 
@@ -175,6 +175,21 @@ def dev_by_zero(denominator ):
     return denominator!=0
 
 def main():
+    inpt=input("enter smth: ")
+    try:
+        # Step 1: Validate `~` placement relative to binary operators
+        is_valid_tilde(inpt)
+
+        # Step 2: Apply transformations (e.g., "minuses destroyer")
+        transformed_expression = minus_destroyer(inpt)
+
+        # Step 3: Validate `~` placement in the transformed expression
+        tilda_checker(transformed_expression)
+
+        print("Expression is valid.")
+    except InvalidTildeException as e:
+        print(f"Error: {e}")
+
     '''
     #ex="-5+-3-4*(-2)-2"
     ex = "2-----2"
