@@ -41,7 +41,7 @@ def calculate(inpt):
             result = calc(postfix)            # Calculate the result
             print("Result:", float(result))
             break
-        except (PowerException, InvalidFactorialException, ZeroDivisionError,MissingOperandsException,InvalidTildeException,LargeNumberException,LargeNumberException) as e:
+        except (PowerException, InvalidFactorialException, ZeroDivisionError,MissingOperandsException,InvalidTildeException,LargeNumberException,LargeNumberException,HashtagException) as e:
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
             # Re-validate the new input

@@ -98,13 +98,25 @@ def calc(postfix_expression):
                 num = stack.pop()
                 if token == '!':
                     # Ensure num is a non-negative integer
-                    if  is_valid_factorial(num)==1:
+                    if is_valid_factorial(num) == 1:
                         raise InvalidFactorialException("Factorial operator '!' cannot follow a number smaller than 0 or between 0 and 1.")
-                    if is_valid_factorial(num)==2:
-                        raise InvalidFactorialException("Factorial operator '!' cannot follow non integer number")
-                    if float(num)>170:
-                        raise  LargeNumberException("The largest number that this calculator can handle for factorial is 170.")
+                    if is_valid_factorial(num) == 2:
+                        raise InvalidFactorialException("Factorial operator '!' cannot follow a non-integer number.")
+                    if float(num) > 170:
+                        raise LargeNumberException("The largest number that this calculator can handle for factorial is 170.")
                     stack.append(operator_functions[token](num))
+
+                elif token == '#':
+                    # Convert num to float or int before validating
+                    num = float(num) if '.' in num else int(num)
+
+                    # Check if the number is negative and raise an exception
+                    if num < 0:
+                        raise HashtagException("Cannot perform hashtag '#' operation on a negative number.")
+
+                    # Perform the hashtag operation
+                    stack.append(hashtag(num))
+
                 else:
                     stack.append(operator_functions[token](num))
 
@@ -119,26 +131,25 @@ def calc(postfix_expression):
                 if token == '/' and not dev_by_zero(second):
                     raise ZeroDivisionError("Division by zero is not allowed.")
 
-                if token=='^':
+                if token == '^':
                     # Check for invalid power operations
                     if not pow_vali(first, second):
                         raise PowerException("Zero to the power of zero is undefined.")
                     if not incorrect_pow(first, second):
-                        raise PowerException(
-                            f"Invalid operation: cannot compute an even root of a negative number {first} in a power of {second}.")
+                        raise PowerException(f"Invalid operation: cannot compute an even root of a negative number {first} in a power of {second}.")
 
                     try:
                         # Check for large results (overflow)
                         if second > 308:
                             raise LargeNumberException("Result too large to compute.")
-                         # Check for large results (overflow)
-                        if (first ** second)>1.7976931348623157e+308:
+                        if (first ** second) > 1.7976931348623157e+308:
                             raise LargeNumberException("Result too large to compute.")
                         # Check for small results (underflow)
-                        if  0<(first**second)< 5e-324:
+                        if 0 < (first ** second) < 5e-324:
                             raise SmallNumberException("Result too small to represent (underflow).")
                     except OverflowError:
                         raise LargeNumberException("Result too large to compute.")
+
                 stack.append(operator_functions[token](first, second))
 
         # Unsupported operator
@@ -149,9 +160,12 @@ def calc(postfix_expression):
     if len(stack) != 1:
         raise ValueError("Invalid postfix expression. Too many operands left on the stack.")
 
-    if float(stack[0])>=1.8e308:
+    # Check for large results
+    if float(stack[0]) >= 1.8e308:
         raise LargeNumberException("Result too large to compute.")
+
     return stack[0]
+
 
 
 def main():

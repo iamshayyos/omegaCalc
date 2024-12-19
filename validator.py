@@ -86,6 +86,7 @@ def factorial_checker(inpt):
 
 
 def hash_vali(inpt):
+    # Check if '#' is the first character in the input
     if inpt[0] == '#':
         raise HashtagException("Hashtag '#' cannot start the expression.")
 

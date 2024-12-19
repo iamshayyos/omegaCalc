@@ -36,33 +36,18 @@ def factorial(num):
     else:
         return num*factorial(num-1)
 
+
 def hashtag(num):
-    print(isinstance(num,str))
     num_str = str(num)
-    print(num_str)
+
+    # Check if the number is negative
     is_negative = num_str.startswith('-')
 
-    # Remove the minus sign if it exists
-    if is_negative:
-        num_str = num_str[1:]
-
-    # Sum only the digits (ignore other characters like '.')
+    # Sum the digits (ignoring non-digit characters)
     total = sum(int(digit) for digit in num_str if digit.isdigit())
 
     # Return the sum as negative if the original number was negative
     return -total if is_negative else total
-    '''
-    f=False
-    num_lst = list(str(num))
-    num=0
-    if num_lst[0]=="-":
-        num_lst[0]=num_lst[0]*(-1)
-        f=True
-    for n in num_lst:#insted of using reduce
-        num+=int(n)
-    if f:
-        return num*-1
-    return num'''
 
 
 def main():
