@@ -149,6 +149,8 @@ def calc(postfix_expression):
     if len(stack) != 1:
         raise ValueError("Invalid postfix expression. Too many operands left on the stack.")
 
+    if float(stack[0])>=1.8e308:
+        raise LargeNumberException("Result too large to compute.")
     return stack[0]
 
 
