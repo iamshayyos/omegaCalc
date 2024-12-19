@@ -31,19 +31,15 @@ def calculate(inpt):
             inpt = input("Please enter a valid expression: ")
 
 
-    print("Input is valid:", inpt)
-    print("Starting calculation")
-
     while True:
         try:
             postfix = infix_to_postfix(inpt)  # Convert to postfix once
-            print("Postfix Expression:", postfix)
             result = calc(postfix)            # Calculate the result
             print("Result:", float(result))
             break
         except (PowerException, InvalidFactorialException, ZeroDivisionError,MissingOperandsException,InvalidTildeException,LargeNumberException,LargeNumberException,HashtagException) as e:
             print(f"Error: {e}")
-            inpt = input("Please enter a valid expression: ")
+            inpt = input("For exit please enter a valid expression: ")
             # Re-validate the new input
             while True:
                 try:
@@ -63,7 +59,7 @@ def calculate(inpt):
                         RepeatingSigneException, BracketsException, InvalidFactorialException,
                         MissingOperandsException,HashtagException,InvalidTildeException) as e:
                     print(f"Error: {e}")
-                    inpt = input("Please enter a valid expression: ")
+                    inpt = input("For exit please enter a valid expression: ")
 
 
 

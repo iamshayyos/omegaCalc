@@ -86,10 +86,12 @@ def minus_destroyer(inpt):
 
 def main():
     user_input = input("Enter something: ")
-    print(is_binary(1,user_input))
+    print(is_unary_minus(int(input("enter pos: ")),user_input))
     while user_input!='.':
-        print(minus_destroyer(user_input))
+        '''print(minus_destroyer(user_input))
+        user_input = input("Enter something: ")'''
         user_input = input("Enter something: ")
+        print(is_unary_minus(int(input("enter pos: ")), user_input))
 
 
 if __name__ == "__main__":

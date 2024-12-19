@@ -146,7 +146,7 @@ def check_not_missing_operand(inpt):
                 if char == '-' and not is_binary(i,inpt) and i < len(inpt) - 1:
                     return True
                 # Check if there's a missing operand before the operator
-                if i == 0 or (not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!'):
+                if i == 0 or (not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!' and inpt[i - 1] != '#'):
                     raise MissingOperandsException(f"Missing operand before operator {char} at position {i}")
                 # Check if there's a missing operand after the operator
                 if i == len(inpt) - 1 or (not inpt[i + 1].isdigit() and inpt[i + 1] != '(' and inpt[i + 1] != '~' and inpt[i + 1] != '-'):
