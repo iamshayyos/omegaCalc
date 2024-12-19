@@ -41,26 +41,34 @@ def brackets_checker(inpt):
 
     # Iterate through each character in the input string
     for i, char in enumerate(inpt):
-        # If the character is an opening bracket '(', push its position onto the stack
+        # If the character is an opening bracket '('
         if char == '(':
+            # Check for multiplication before '('
+            if i > 0 and (inpt[i - 1].isdigit() or inpt[i - 1] == ')'):
+                raise BracketsException("Multiplication is not allowed before '('.")
+
             brackets_stack.append(i)
 
         # If the character is a closing bracket ')'
         if char == ')':
+            # Check for multiplication after ')'
+            if i + 1 < len(inpt) and inpt[i + 1].isdigit():
+                raise BracketsException("Multiplication is not allowed after ')'.")
+
             # If the stack is empty, there's no matching opening bracket
             if len(brackets_stack) == 0:
-                raise MismatchedBracketsException("Mismatched closing bracket ')'.")
+                raise BracketsException("Mismatched closing bracket ')'.")
 
             # Pop the position of the last unmatched opening bracket '('
             opening_index = brackets_stack.pop()
 
             # Check if the parentheses are empty (i.e., no content between '(' and ')')
             if i - opening_index == 1:
-                raise EmptyBracketsException("Empty parentheses '()' are not allowed.")
+                raise BracketsException("Empty parentheses '()' are not allowed.")
 
     # After iterating through the input, if the stack is not empty, there are unmatched '('
     if len(brackets_stack) != 0:
-        raise MismatchedBracketsException("Mismatched opening bracket '('.")
+        raise BracketsException("Mismatched opening bracket '('.")
 
     return True  # The input is valid if no exceptions were raised
 
@@ -71,7 +79,7 @@ def factorial_checker(inpt):
         if inpt[indx] == '!':
             if indx == 0:
                 raise InvalidFactorialException("Expression cannot start with a factorial operator '!'.")
-            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')':
+            if not inpt[indx - 1].isdigit() and inpt[indx - 1] != ')' and inpt[indx - 1] != '!' and inpt[indx - 1] != '#':
                 raise InvalidFactorialException("Factorial operator '!' must follow a digit or a closing parenthesis ')'.")
         indx += 1
     return True

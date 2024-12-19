@@ -25,8 +25,8 @@ def calculate(inpt):
 
             break  # If all checks pass, break the loop
         except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
-                RepeatingSigneException, MismatchedBracketsException, InvalidFactorialException,
-                MissingOperandsException,HashtagException,InvalidTildeException,EmptyBracketsException) as e:
+                RepeatingSigneException, BracketsException, InvalidFactorialException,
+                MissingOperandsException,HashtagException,InvalidTildeException) as e:
             print(f"Error: {e}")
             inpt = input("Please enter a valid expression: ")
 
@@ -60,8 +60,8 @@ def calculate(inpt):
                     factorial_checker(inpt)
                     break
                 except (AllWhiteSpaceException, InvalidDotPlacementException, UnexpectedCharacterException,
-                        RepeatingSigneException, MismatchedBracketsException, InvalidFactorialException,
-                        MissingOperandsException,HashtagException,InvalidTildeException,EmptyBracketsException) as e:
+                        RepeatingSigneException, BracketsException, InvalidFactorialException,
+                        MissingOperandsException,HashtagException,InvalidTildeException) as e:
                     print(f"Error: {e}")
                     inpt = input("Please enter a valid expression: ")
 
