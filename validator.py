@@ -164,8 +164,12 @@ def incorrect_pow(base,exponent):
     return False if (base < 0 < exponent < 1 or (base<0 and -1<exponent<0) ) else True
 
 def is_valid_factorial(num):
-    if num<0 or 0<num<1: return False
-    return True
+    if num < 0 or (0 < num < 1):
+        return 1  # Indicates the number is negative or between 0 and 1
+    if not (isinstance(num, int) or (isinstance(num, float) and num.is_integer())):
+        return 2  # Indicates the number is not an integer
+    return 0  # Valid case: non-negative integer
+
 
 def dev_by_zero(denominator ):
     return denominator!=0

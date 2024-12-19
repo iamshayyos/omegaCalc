@@ -90,4 +90,19 @@ class HashtagException(Exception):
         return f"HashtagException: {self.args[0]}"
 
 
+class LargeNumberException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def __str__(self):
+        return f"TooLargeNumberException: {self.args[0]}"
+
+class SmallNumberException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def __str__(self):
+        return f"TooLargeNumberException: {self.args[0]}"
+
+
 

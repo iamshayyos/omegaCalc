@@ -1,3 +1,4 @@
+from customExceptions import LargeNumberException,SmallNumberException
 def addition(first, second):
     return first + second
 
@@ -36,6 +37,7 @@ def factorial(num):
 
 def hashtag(num):
     num_str = str(num)
+    print(num_str)
     is_negative = num_str.startswith('-')
 
     # Remove the minus sign if it exists
