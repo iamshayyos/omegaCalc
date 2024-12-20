@@ -1,4 +1,14 @@
-from customExceptions import LargeNumberException,SmallNumberException
+
+"""
+operations.py
+
+This module contains functions to perform basic mathematical operations.
+It includes functions for addition, subtraction, multiplication, division,
+modulo, power calculations, and other utility functions like max, min, average,
+and factorial.
+"""
+
+
 def addition(first, second):
     return first + second
 

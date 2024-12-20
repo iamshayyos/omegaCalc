@@ -1,3 +1,27 @@
+"""
+test_calculator.py
+
+This module contains unit tests for the `calculate` function in `manager.py`.
+It verifies the correctness of mathematical expression calculations and ensures
+proper exception handling for various edge cases and invalid inputs.
+
+The tests include:
+- Basic arithmetic operations (addition, subtraction, multiplication, division, power)
+- Complex expressions with multiple operators and parentheses
+- Edge cases such as unary minus and multiple unary minuses
+- Factorial calculations and hashtag operations
+- Exception handling for errors such as:
+  - Division by zero
+  - Invalid characters
+  - Repeating signs
+  - Unmatched parentheses
+  - Invalid factorial usage
+  - Large numbers and power exceptions
+  - Empty or whitespace-only inputs
+
+To run the tests, execute this file directly with Python's `unittest` framework:python test_calculator.py or from the run button placed on the upper navbar
+"""
+
 import unittest
 from manager import calculate
 from customExceptions import *

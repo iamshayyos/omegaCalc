@@ -1,4 +1,22 @@
+"""
+minus_handling.py
+
+This module contains functions to handle expressions with minus signs. It simplifies consecutive minus
+signs and determines if a minus sign is sign, unary or binary.
+"""
+
+
 def count_minus(pos, inpt):
+    """
+        Counts consecutive minus signs starting from a given position.
+
+        Args:
+            pos (int): The starting position in the input string.
+            inpt (str): The input expression.
+
+        Returns:
+            int: The number of consecutive minus signs.
+        """
     count = 0
     for i in range(pos, len(inpt)):
         if inpt[i] == '-':
@@ -8,6 +26,17 @@ def count_minus(pos, inpt):
     return count
 
 def is_unary_minus(pos, inpt):
+    """
+       Determines if a minus sign at a given position is unary.
+
+       Args:
+           pos (int): The position of the minus sign.
+           inpt (str): The input expression.
+
+       Returns:
+           bool: True if the minus sign is unary, False otherwise.
+       """
+
     # Check if the position is at the start of the string
     if pos == 0 and (inpt[pos + 1] in ('(', '-') or inpt[pos + 1].isdigit()):
         return True
@@ -30,12 +59,33 @@ def is_unary_minus(pos, inpt):
     return True
 
 def is_binary(pos,inpt):
+    """
+       Determines if a minus sign at the given position is a binary minus.
+
+       Args:
+           pos (int): The position of the minus sign in the input string.
+           inpt (str): The input expression.
+
+       Returns:
+           bool: True if the minus sign is a binary operator, False otherwise.
+       """
+
     if pos==0: return False
     if len(inpt)>1 and not (inpt[pos-1].isdigit() or inpt[pos-1]=='!' or inpt[pos-1]=='#' or inpt[pos-1]==')'):
         return False
     return True
 
 def minus_destroyer(inpt):
+    """
+        Simplifies consecutive minus signs in a mathematical expression.
+
+        Args:
+            inpt (str): The input expression containing minus signs.
+
+        Returns:
+            str: The expression with simplified minus signs, places different symbols of minus for each one.
+        """
+
     i = 0
     inpt = list(inpt)  # Convert string to a mutable list
 
@@ -86,12 +136,10 @@ def minus_destroyer(inpt):
 
 def main():
     user_input = input("Enter something: ")
-    print(is_unary_minus(int(input("enter pos: ")),user_input))
     while user_input!='.':
-        '''print(minus_destroyer(user_input))
-        user_input = input("Enter something: ")'''
+        print(minus_destroyer(user_input))
         user_input = input("Enter something: ")
-        print(is_unary_minus(int(input("enter pos: ")), user_input))
+
 
 
 if __name__ == "__main__":

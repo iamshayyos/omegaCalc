@@ -1,3 +1,10 @@
+"""
+globals.py
+
+This module defines global constants used across the mathematical expression
+processing and validation functions. It includes sets of supported operators,
+operator priorities, and mappings to their corresponding functions.
+"""
 from operations import *
 
 operators_no_repeat = {'+', '*', '/', '^', '%', '@', '$', '&', '~'}

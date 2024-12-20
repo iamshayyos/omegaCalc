@@ -1,12 +1,53 @@
+"""
+validator.py
+
+This module contains functions to validate mathematical expressions before they are processed or evaluated.
+It includes checks for:
+- Whitespace-only inputs
+- Dot placements
+- Unexpected characters
+- Unmatched parentheses
+- Invalid factorial usage
+- Invalid power usage
+- Repeating signs
+- Incorrect tilde placements
+- Missing operands
+- Division by zero
+"""
+
 from customExceptions import *
 from globals import *
 from minus_handling import *
 def all_white_chars(inpt):
+    """
+        Checks if the input contains only whitespace.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if the input is valid.
+
+        Raises:
+            AllWhiteSpaceException: If the input contains only whitespace.
+        """
     if not inpt.strip():
         raise AllWhiteSpaceException("Input contains only whitespace.")
     return True
 
 def dot_checker(inpt):
+    """
+        Checks for invalid dot placements in numbers (multiple dots).
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if the dot placement is valid.
+
+        Raises:
+            InvalidDotPlacementException: If a number contains multiple dots.
+        """
     i = 0
     current_number = ""
     has_dot = False
@@ -30,6 +71,18 @@ def dot_checker(inpt):
 
 
 def unexpected_letters(inpt):
+    """
+       Checks for unexpected characters in the input.
+
+       Args:
+           inpt (str): The input string to check.
+
+       Returns:
+           bool: True if no unexpected characters are found.
+
+       Raises:
+           UnexpectedCharacterException: If an unexpected character is found.
+       """
     for char in inpt:
         if not char.isdigit() and char not in supported_operators and char != '(' and char != ')' and char != '.':
             raise UnexpectedCharacterException(f"Unexpected character found: '{char}'")
@@ -37,6 +90,18 @@ def unexpected_letters(inpt):
 
 
 def brackets_checker(inpt):
+    """
+        Checks for unmatched or improperly placed parentheses.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if parentheses are properly matched and placed.
+
+        Raises:
+            BracketsException: If mismatched or empty parentheses are found.
+        """
     brackets_stack = []  # Stack to keep track of the positions of opening brackets '('
 
     # Iterate through each character in the input string
@@ -74,6 +139,18 @@ def brackets_checker(inpt):
 
 
 def factorial_checker(inpt):
+    """
+        Checks for valid usage of the factorial operator '!'.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if factorial usage is valid.
+
+        Raises:
+            InvalidFactorialException: If factorial is misused.
+        """
     indx = 0
     while indx < len(inpt):
         if inpt[indx] == '!':
@@ -86,6 +163,19 @@ def factorial_checker(inpt):
 
 
 def hash_vali(inpt):
+    """
+        Checks for invalid hashtag '#' placement.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if hashtag placement is valid.
+
+        Raises:
+            HashtagException: If '#' is at the start or followed by a digit.
+        """
+
     # Check if '#' is the first character in the input
     if inpt[0] == '#':
         raise HashtagException("Hashtag '#' cannot start the expression.")
@@ -95,9 +185,23 @@ def hash_vali(inpt):
             # Check if # is followed by a digit
             if i + 1 < len(inpt) and inpt[i + 1].isdigit():
                 raise HashtagException("Hashtag '#' cannot be followed by a digit.")
+            if not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!' and inpt[i - 1] != '#':
+                raise InvalidFactorialException("Hashtag operator '#' must follow a digit or a closing parenthesis ')'.")
 
 
 def tilda_checker(inpt):
+    """
+        Checks for invalid tilde '~' placement.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if tilde placement is valid.
+
+        Raises:
+            InvalidTildeException: If '~' is at the end or followed by invalid characters.
+        """
     # Tilde cannot be the last character
     if inpt[-1] == '~':
         raise InvalidTildeException("Tilde '~' cannot be the last character in the expression.")
@@ -118,6 +222,18 @@ def tilda_checker(inpt):
 
 
 def repeating_signs(inpt):
+    """
+        Checks for consecutive repeating signs that are not allowed.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if no repeating signs are found.
+
+        Raises:
+            RepeatingSigneException: If consecutive repeating signs are detected.
+        """
     length = len(inpt)
     for i in range(length - 1):
         if inpt[i] in operators_no_repeat and inpt[i]==inpt[i + 1] :
@@ -126,6 +242,18 @@ def repeating_signs(inpt):
     return True
 
 def is_valid_tilde(inpt):
+    """
+        Checks if the tilde '~' is placed correctly in the input string.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if tilde placement is valid.
+
+        Raises:
+            InvalidTildeException: If the tilde '~' is placed incorrectly.
+        """
     for indx in range(len(inpt)):
         if inpt[indx] == '~':
             if indx==0:
@@ -136,6 +264,18 @@ def is_valid_tilde(inpt):
 
 
 def check_not_missing_operand(inpt):
+    """
+        Checks if there are missing operands around binary operators.
+
+        Args:
+            inpt (str): The input string to check.
+
+        Returns:
+            bool: True if no operands are missing.
+
+        Raises:
+            MissingOperandsException: If an operator is missing operands before or after it.
+        """
     i = 0
     while i < len(inpt):
         char = inpt[i]
@@ -156,15 +296,46 @@ def check_not_missing_operand(inpt):
 
 
 
-'''הפונקציות שמתחת יקראו בזמן החישוב עצמו ולא במהלך הבדיקה המקדימה'''
 
 def pow_vali(base,exponent):
+    """
+       Validates if the power operation is valid (0^0 is invalid).
+
+       Args:
+           base (float): The base of the power operation.
+           exponent (float): The exponent of the power operation.
+
+       Returns:
+           bool: False if the power operation is invalid (0^0), otherwise True.
+       """
     return False if base==0 and exponent==0 else True
 
 def incorrect_pow(base,exponent):
+    """
+        Checks for invalid power operations with negative bases and fractional exponents.
+
+        Args:
+            base (float): The base of the power operation.
+            exponent (float): The exponent of the power operation.
+
+        Returns:
+            bool: False if the power operation is invalid, otherwise True.
+        """
     return False if (base < 0 < exponent < 1 or (base<0 and -1<exponent<0) ) else True
 
 def is_valid_factorial(num):
+    """
+        Checks if a number is valid for a factorial operation.
+
+        Args:
+            num (float): The number to check.
+
+        Returns:
+            int:
+                - 0 if the number is a non-negative integer (valid case).
+                - 1 if the number is negative or between 0 and 1.
+                - 2 if the number is not an integer.
+        """
     num=float(num)
     if num < 0 or (0 < num < 1):
         return 1  # Indicates the number is negative or between 0 and 1
@@ -174,25 +345,19 @@ def is_valid_factorial(num):
 
 
 def dev_by_zero(denominator ):
+    """
+        Checks if the denominator is zero to prevent division by zero.
+
+        Args:
+            denominator (float): The denominator to check.
+
+        Returns:
+            bool: False if the denominator is zero, otherwise True.
+        """
     return denominator!=0
 
 def main():
     ''' inpt=input("enter smth: ")
-    try:
-        # Step 1: Validate `~` placement relative to binary operators
-        is_valid_tilde(inpt)
-
-        # Step 2: Apply transformations (e.g., "minuses destroyer")
-        transformed_expression = minus_destroyer(inpt)
-
-        # Step 3: Validate `~` placement in the transformed expression
-        tilda_checker(transformed_expression)
-
-        print("Expression is valid.")
-    except InvalidTildeException as e:
-        print(f"Error: {e}")
-
-
     #ex="-5+-3-4*(-2)-2"
     ex = "2-----2"
     print(is_binary_minus(ex,2))

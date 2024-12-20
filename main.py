@@ -1,6 +1,20 @@
+"""
+main.py
+
+This module provides the main entry point for the calculator program.
+It takes user input, processes expressions using the `calculate` function from `manager.py`,
+and handles exceptions to provide appropriate feedback.
+"""
+
+
 from manager import calculate
 
 def main():
+    """
+       The main function that runs the calculator application in a loop until the user exits.
+
+       It prompts the user for an equation, calculates the result, and handles exceptions gracefully.
+       """
     try:
         inpt = input('Enter an equation using the following operators:\n'
                      '+ - * / \n'

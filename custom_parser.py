@@ -1,3 +1,12 @@
+"""
+custom_parser.py
+
+This module contains functions for parsing mathematical expressions, converting infix expressions to postfix,
+and evaluating postfix expressions. It handles various operators, including unary minus, sign minus, factorial,
+and custom operations like hashtag and power.
+"""
+
+
 from globals import *
 from validator import is_valid_factorial, dev_by_zero, pow_vali,incorrect_pow,tilda_checker
 from minus_handling import *
@@ -5,13 +14,40 @@ from customExceptions import *
 
 
 def string_to_lst_conv(inpt):
+    """
+        Converts a string into a list of its characters.
+
+        Args:
+            inpt (str): The input string.
+
+        Returns:
+            list: A list of characters from the input string.
+        """
     return list(inpt)
 
 def white_spaces_remover(inpt):
+    """
+        Removes all whitespace characters from the input string.
+
+        Args:
+            inpt (str): The input string containing whitespace.
+
+        Returns:
+            list: A list of characters with whitespace removed.
+        """
     inpt_lst = [letter for letter in string_to_lst_conv(inpt) if not letter.isspace()]
     return list(''.join(inpt_lst))
 
 def infix_to_postfix(expression):
+    """
+        Converts an infix expression to a postfix expression using the Shunting Yard algorithm.
+
+        Args:
+            expression (str): The infix mathematical expression.
+
+        Returns:
+            list: The postfix expression as a list of tokens.
+        """
     output = []  # Postfix expression
     stack = []  # Operator stack
     i = 0
@@ -68,6 +104,23 @@ def infix_to_postfix(expression):
 
 
 def calc(postfix_expression):
+    """
+        Evaluates a postfix expression and returns the result.
+
+        Args:
+            postfix_expression (list): The postfix expression as a list of tokens.
+
+        Returns:
+            float or int: The result of the evaluated postfix expression.
+
+        Raises:
+            MissingOperandsException: If an operator is missing operands.
+            ZeroDivisionError: If division by zero is attempted.
+            PowerException: If a power operation is invalid.
+            LargeNumberException: If the result is too large to compute.
+            HashtagException: If the hashtag operation is applied to a negative number.
+        """
+
     stack = []
 
     for token in postfix_expression:
