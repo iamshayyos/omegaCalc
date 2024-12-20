@@ -53,21 +53,6 @@ class PowerException(Exception):
     def __str__(self):
         return f"PowerZeroException: {self.args[0]}"
 
-'''
-class ZeroToThePowerZeroException(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-
-    def __str__(self):
-        return f"ZeroToThePowerZeroException: {self.args[0]}"
-
-class NegativeRootException(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-
-    def __str__(self):
-        return f"NegativeRootException: {self.args[0]}"
-'''
 class RepeatingSigneException(Exception):
     def __init__(self, message):
         super().__init__(message)

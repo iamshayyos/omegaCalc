@@ -33,6 +33,10 @@ class TestCalculator(unittest.TestCase):
     def test_power(self):
         self.assert_calculation("2^3", 8)
 
+    def test_complicate_input(self):
+        self.assert_calculation("((3 + 5*2)^2)/4 + (12*2 $ 5*3) - (10/2 & 7) + 4! + 9@3@6 + 123# * (23%5) - ~8", 273.25)
+
+
     # Edge cases
     def test_unary_minus(self):
         self.assert_calculation("-5", "-5")
@@ -62,6 +66,12 @@ class TestCalculator(unittest.TestCase):
     def test_unmatched_parentheses(self):
         self.assert_raises_exception("(2+3", BracketsException)
 
+    def test_negative_hashtag(self):
+        self.assert_raises_exception("(-5)#", HashtagException)
+
+    def test_empty_parentheses(self):
+        self.assert_raises_exception("5+()+2", BracketsException)
+
     def test_repeating_signs(self):
         self.assert_raises_exception("2++3", RepeatingSigneException)
 
@@ -71,8 +81,18 @@ class TestCalculator(unittest.TestCase):
     def test_large_number(self):
         self.assert_raises_exception("10^1000", LargeNumberException)
 
+    def test_zero_to_the_power_of_zero(self):
+        self.assert_raises_exception("(1-0!)^(0%100)", PowerException)
+
+    def test_root_of_negative_number(self):
+        self.assert_raises_exception("(-2)^(0.5)", PowerException)
+
     def test_empty_input(self):
         self.assert_raises_exception("    ", AllWhiteSpaceException)
+
+
+
+
 
 
 if __name__ == "__main__":
