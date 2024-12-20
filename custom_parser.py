@@ -181,7 +181,7 @@ def calc(postfix_expression):
                 first = float(stack.pop())
 
                 # Check for division by zero
-                if token == '/' and not dev_by_zero(second):
+                if (token == '/' or token=='%') and not dev_by_zero(second):
                     raise ZeroDivisionError("Division by zero is not allowed.")
 
                 if token == '^':
