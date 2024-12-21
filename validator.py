@@ -84,7 +84,7 @@ def unexpected_letters(inpt):
            UnexpectedCharacterException: If an unexpected character is found.
        """
     for char in inpt:
-        if not char.isdigit() and char not in supported_operators and char != '(' and char != ')' and char != '.':
+        if not char.isdigit() and char not in SUPPORTED_OPERATORS and char != '(' and char != ')' and char != '.':
             raise UnexpectedCharacterException(f"Unexpected character found: '{char}'")
     return True
 
@@ -236,7 +236,7 @@ def repeating_signs(inpt):
         """
     length = len(inpt)
     for i in range(length - 1):
-        if inpt[i] in operators_no_repeat and inpt[i]==inpt[i + 1] :
+        if inpt[i] in OPERATORS_NO_REPEAT and inpt[i]==inpt[i + 1] :
             raise RepeatingSigneException(f"Repeating signs detected: {inpt[i]} followed by {inpt[i + 1]}")
 
     return True
@@ -259,7 +259,7 @@ def is_valid_tilde(inpt):
             if indx==0:
                 continue
             # Check if the character before ~ is not a binary operator
-            if inpt[indx - 1] not in binary_operators and inpt[indx - 1]!='(' and not (inpt[indx - 1]=='-' and is_binary(indx-1,inpt)):
+            if inpt[indx - 1] not in BINARY_OPERATORS and inpt[indx - 1]!='(' and not (inpt[indx - 1]=='-' and is_binary(indx-1,inpt)):
                 raise InvalidTildeException("Invalid placement of tilde '~'. It must follow a binary operator.")
 
 
@@ -281,7 +281,7 @@ def check_not_missing_operand(inpt):
         char = inpt[i]
 
         # Check if the current character is a binary operator
-        if char in operator_operands and operator_operands[char] == 2:
+        if char in OPERATOR_OPERANDS and OPERATOR_OPERANDS[char] == 2:
                 # Check if the operator is unary minus, if it is returns true
                 if char == '-' and not is_binary(i,inpt) and i < len(inpt) - 1:
                     return True

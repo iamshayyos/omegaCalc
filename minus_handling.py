@@ -70,7 +70,8 @@ def is_binary(pos,inpt):
            bool: True if the minus sign is a binary operator, False otherwise.
        """
 
-    if pos==0: return False
+    if pos==0:
+        return False
     if len(inpt)>1 and not (inpt[pos-1].isdigit() or inpt[pos-1]=='!' or inpt[pos-1]=='#' or inpt[pos-1]==')'):
         return False
     return True

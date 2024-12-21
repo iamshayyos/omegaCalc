@@ -7,12 +7,12 @@ operator priorities, and mappings to their corresponding functions.
 """
 from operations import *
 
-operators_no_repeat = {'+', '*', '/', '^', '%', '@', '$', '&', '~'}
-supported_operators = {'+', '-', '*', '/', '^', '%', '&', '$', '@', '!', '~','#'}
-valid_for_unary = {'+', '-', '*', '/', '^', '(', '~'}
-binary_operators = {'+', '*', '/', '^', '%', '@', '$', '&'}
+OPERATORS_NO_REPEAT = {'+', '*', '/', '^', '%', '@', '$', '&', '~'}
+SUPPORTED_OPERATORS = {'+', '-', '*', '/', '^', '%', '&', '$', '@', '!', '~','#'}
+VALID_FOR_UNARY = {'+', '-', '*', '/', '^', '(', '~'}
+BINARY_OPERATORS = {'+', '*', '/', '^', '%', '@', '$', '&'}
 # Operator priorities for parsing expressions
-operator_priority = {
+OPERATOR_PRIORITY = {
     "+": 1,
     "-": 1,
     "*": 2,
@@ -30,7 +30,7 @@ operator_priority = {
 }
 
 # Operators mapped to their corresponding functions
-operator_functions = {
+OPERATOR_FUNCTIONS = {
     "+": addition,
     "-": subtraction,
     "*": multiplication,
@@ -47,7 +47,7 @@ operator_functions = {
 }
 
 # Number of operands each operator requires
-operator_operands = {
+OPERATOR_OPERANDS = {
     "+": 2,
     "-": 2,
     "*": 2,

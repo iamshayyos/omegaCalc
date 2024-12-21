@@ -67,7 +67,7 @@ def infix_to_postfix(expression):
 
         # Handle sign minus ` (highest priority)
         elif char == '`':
-            while stack and operator_priority.get(stack[-1], 0) >= operator_priority[char]:
+            while stack and OPERATOR_PRIORITY.get(stack[-1], 0) >= OPERATOR_PRIORITY[char]:
                 output.append(stack.pop())
             stack.append(char)
 
@@ -76,8 +76,8 @@ def infix_to_postfix(expression):
             stack.append('_')
 
         # Handle other operators
-        elif char in supported_operators:
-            while stack and stack[-1] != '(' and operator_priority.get(stack[-1], 0) >= operator_priority[char]:
+        elif char in SUPPORTED_OPERATORS:
+            while stack and stack[-1] != '(' and OPERATOR_PRIORITY.get(stack[-1], 0) >= OPERATOR_PRIORITY[char]:
                 output.append(stack.pop())
             stack.append(char)
 
@@ -143,9 +143,9 @@ def calc(postfix_expression):
             stack.append(str(-float(num)))
 
         # Handle supported operators
-        elif token in operator_functions:
+        elif token in OPERATOR_FUNCTIONS:
             # Unary operators
-            if operator_operands[token] == 1:
+            if OPERATOR_OPERANDS[token] == 1:
                 if not stack:
                     raise MissingOperandsException(f"Missing operand for unary operator '{token}'.")
                 num = stack.pop()
@@ -157,7 +157,7 @@ def calc(postfix_expression):
                         raise InvalidFactorialException("Factorial operator '!' cannot follow a non-integer number.")
                     if float(num) > 170:
                         raise LargeNumberException("The largest number that this calculator can handle for factorial is 170.")
-                    stack.append(operator_functions[token](num))
+                    stack.append(OPERATOR_FUNCTIONS[token](num))
 
                 elif token == '#':
                     # Convert num to float or int before validating
@@ -171,10 +171,10 @@ def calc(postfix_expression):
                     stack.append(hashtag(num))
 
                 else:
-                    stack.append(operator_functions[token](num))
+                    stack.append(OPERATOR_FUNCTIONS[token](num))
 
             # Binary operators
-            elif operator_operands[token] == 2:
+            elif OPERATOR_OPERANDS[token] == 2:
                 if len(stack) < 2:
                     raise MissingOperandsException(f"Missing operands for binary operator '{token}'.")
                 second = float(stack.pop())
@@ -203,7 +203,7 @@ def calc(postfix_expression):
                     except OverflowError:
                         raise LargeNumberException("Result too large to compute.")
 
-                stack.append(operator_functions[token](first, second))
+                stack.append(OPERATOR_FUNCTIONS[token](first, second))
 
         # Unsupported operator
         else:
