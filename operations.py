@@ -64,6 +64,3 @@ def main():
     print(hashtag((input("enter number"))))
 if __name__ == "__main__":
     main()
-
-
-

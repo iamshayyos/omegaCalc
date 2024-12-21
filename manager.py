@@ -9,8 +9,6 @@ if the input is invalid.
 
 from validator import *
 from custom_parser import *
-from globals import *
-
 def calculate(inpt):
     """
         Validates, parses, and calculates the result of a mathematical expression.
