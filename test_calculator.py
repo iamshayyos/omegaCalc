@@ -32,7 +32,7 @@ class TestCalculator(unittest.TestCase):
         try:
             print(f"Testing: {expression}")
             result = calculate(expression)
-            self.assertEqual(result, expected_output)  # Check if the result matches the expected output
+            self.assertAlmostEqual(result, expected_output, places=7)  # Check with tolerance
         except Exception as e:
             self.fail(f"Test failed for input '{expression}' with exception: {e}")
 
@@ -56,6 +56,9 @@ class TestCalculator(unittest.TestCase):
 
     def test_power(self):
         self.assert_calculation("2^3", 8)
+
+    def test_precession(self):
+        self.assert_calculation("10-9.9",0.1)
 
     def test_complicate_input(self):
         self.assert_calculation("((3 + 5*2)^2)/4 + (12*2 $ 5*3) - (10/2 & 7) + 4! + 9@3@6 + 123# * (23%5) - ~8", 273.25)

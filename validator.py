@@ -321,7 +321,7 @@ def incorrect_pow(base,exponent):
         Returns:
             bool: False if the power operation is invalid, otherwise True.
         """
-    return False if (base < 0 < exponent < 1 or (base<0 and -1<exponent<0) ) else True
+    return False if (base < 0 < exponent < 1 or (base<0 and -1<exponent<0) or (base==0 and exponent<0) ) else True
 
 def is_valid_factorial(num):
     """
