@@ -6,43 +6,41 @@ It takes user input, processes expressions using the `calculate` function from `
 and handles exceptions to provide appropriate feedback.
 """
 
-
 from manager import calculate
 
 def main():
     """
-       The main function that runs the calculator application in a loop until the user exits.
+    The main function that runs the calculator application in a loop until the user exits.
 
-       It prompts the user for an equation, calculates the result, and handles exceptions gracefully.
-       """
-    try:
-        inpt = input('Enter an equation using the following operators:\n'
-                     '+ - * / \n'
-                     'In addition, you can use power x^y, avg x@y, max x$y, min x&y, modulo x%y, '
-                     'negative value ~x, factorial x!, sum of the number digits xyz# -> x+y+z.\n'
-                     'Type "end" to exit the calculator.\n\nEnter an equation: ')
+    It prompts the user for an equation, calculates the result, and handles exceptions gracefully.
+    """
+    print(
+        "Welcome to the calculator program!\n"
+        "Supported operations:\n"
+        "+, -, *, /, power (x^y), average (x@y), max (x$y), min (x&y), modulo (x%y),\n"
+        "negative (~x), factorial (x!), sum of digits (xyz# -> x+y+z).\n"
+        "Type 'end' to exit the calculator.\n"
+    )
 
-        while True:
-            try:
-                inpt = input("Enter a command (or 'end' to quit): ")
-                if inpt == "end":
-                    print("Goodbye!")
-                    break
-                result = calculate(inpt)
-                print(f"Result: {result}")
-            except EOFError:
-                print("Input ended unexpectedly. Exiting.")
+    while True:
+        try:
+            inpt = input("Enter an equation (or 'end' to quit): ")
+            if inpt.lower() == "end":
+                print("Goodbye!")
                 break
-            except Exception as e:
-                print(f"Error: {e}")
 
-            # Prompt for new input
-            inpt = input("Enter new equation (or type 'end' to exit): ")
+            # Calculate the result using the manager module
+            result = calculate(inpt)
+            print(f"Result: {result}")
 
-    except KeyboardInterrupt:
-        print("\nProgram interrupted by user. Goodbye!")
-
-    print("Calculator exited. Goodbye!")
+        except EOFError:
+            print("Input ended unexpectedly. Exiting.")
+            break
+        except KeyboardInterrupt:
+            print("\nProgram interrupted by user. Goodbye!")
+            break
+        except Exception as e:
+            print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()
