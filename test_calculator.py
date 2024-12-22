@@ -60,6 +60,8 @@ class TestCalculator(unittest.TestCase):
     def test_precession(self):
         self.assert_calculation("10-9.9",0.1)
 
+    def test_complicate_hash(self):
+        self.assert_calculation("9999999999999.99999999999999#",243)
     def test_complicate_input(self):
         self.assert_calculation("((3 + 5*2)^2)/4 + (12*2 $ 5*3) - (10/2 & 7) + 4! + 9@3@6 + 123# * (23%5) - ~8", 273.25)
 
@@ -113,7 +115,10 @@ class TestCalculator(unittest.TestCase):
 
     def test_root_of_negative_number(self):
         self.assert_raises_exception("(-2)^(0.5)", PowerException)
-
+    def test_string_converted_to_float(self):
+        self.assert_raises_exception("(99999999999999.99999999999+1)#",LargeNumberException)
+    def test_dev_by_zero_using_power(self):
+        self.assert_raises_exception("0^-1",PowerException)
     def test_empty_input(self):
         self.assert_raises_exception("    ", AllWhiteSpaceException)
 
