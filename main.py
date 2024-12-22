@@ -22,10 +22,17 @@ def main():
                      'negative value ~x, factorial x!, sum of the number digits xyz# -> x+y+z.\n'
                      'Type "end" to exit the calculator.\n\nEnter an equation: ')
 
-        while inpt != "end":
+        while True:
             try:
+                inpt = input("Enter a command (or 'end' to quit): ")
+                if inpt == "end":
+                    print("Goodbye!")
+                    break
                 result = calculate(inpt)
                 print(f"Result: {result}")
+            except EOFError:
+                print("Input ended unexpectedly. Exiting.")
+                break
             except Exception as e:
                 print(f"Error: {e}")
 
