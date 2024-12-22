@@ -160,8 +160,6 @@ def calc(postfix_expression):
                     stack.append(OPERATOR_FUNCTIONS[token](num))
 
                 elif token == '#':
-                    # Convert num to float or int before validating
-                    #num = float(num) if '.' in num else int(num)
 
                     # Check if the number is negative and raise an exception
                     if not isinstance(num,str):
