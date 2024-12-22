@@ -161,10 +161,12 @@ def calc(postfix_expression):
 
                 elif token == '#':
                     # Convert num to float or int before validating
-                    num = float(num) if '.' in num else int(num)
+                    #num = float(num) if '.' in num else int(num)
 
                     # Check if the number is negative and raise an exception
-                    if num < 0:
+                    if not isinstance(num,str):
+                        raise LargeNumberException("Result too large to compute.")
+                    if num.startswith('-'):
                         raise HashtagException("Cannot perform hashtag '#' operation on a negative number.")
 
                     # Perform the hashtag operation

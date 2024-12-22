@@ -186,7 +186,7 @@ def hash_vali(inpt):
             if i + 1 < len(inpt) and inpt[i + 1].isdigit():
                 raise HashtagException("Hashtag '#' cannot be followed by a digit.")
             if not inpt[i - 1].isdigit() and inpt[i - 1] != ')' and inpt[i - 1] != '!' and inpt[i - 1] != '#':
-                raise InvalidFactorialException("Hashtag operator '#' must follow a digit or a closing parenthesis ')'.")
+                raise HashtagException("Hashtag operator '#' must follow a digit or a closing parenthesis ')'.")
 
 
 def tilda_checker(inpt):
